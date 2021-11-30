@@ -1,0 +1,562 @@
+@prefix : <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/majdi/ontologies/2021/10/parking> .
+
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/contributor
+<http://purl.org/dc/elements/1.1/contributor> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/creator
+<http://purl.org/dc/elements/1.1/creator> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/date
+<http://purl.org/dc/elements/1.1/date> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/description
+<http://purl.org/dc/elements/1.1/description> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2003/06/sw-vocab-status/ns#term_status
+<http://www.w3.org/2003/06/sw-vocab-status/ns#term_status> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#definition
+<http://www.w3.org/2004/02/skos/core#definition> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2004/02/skos/core#prefLabel
+<http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#date
+xsd:date rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasGeometry
+:hasGeometry rdf:type owl:ObjectProperty ;
+             rdfs:range <http://www.opengis.net/ont/geosparql#Geometry> .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#head
+:head rdf:type owl:ObjectProperty ,
+               owl:SymmetricProperty ;
+      rdfs:domain :ParkingSlot ;
+      rdfs:range :ParkingSlot .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#located
+:located rdf:type owl:ObjectProperty ,
+                  owl:TransitiveProperty ;
+         rdfs:domain :ParkingSlot ;
+         rdfs:range :District .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#onRoad
+:onRoad rdf:type owl:ObjectProperty ,
+                 owl:FunctionalProperty ;
+        rdfs:domain :ParkingSlot ;
+        rdfs:range :Road .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#onTerrain
+:onTerrain rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :ParkingSlot ;
+           rdfs:range :Terrain .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#period
+:period rdf:type owl:ObjectProperty ;
+        rdfs:domain :Pricing ;
+        rdfs:range :PricingPeriod .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#pricing
+:pricing rdf:type owl:ObjectProperty ;
+         rdfs:domain :ParkingSlot ;
+         rdfs:range :Pricing .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#active
+:active rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#bikeRack
+:bikeRack rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#cost
+:cost rdf:type owl:DatatypeProperty .
+
+
+###  http://www.w3.org/2003/01/geo/wgs84_pos#lat
+<http://www.w3.org/2003/01/geo/wgs84_pos#lat> rdf:type owl:DatatypeProperty ;
+                                              rdfs:domain <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> .
+
+
+###  http://www.w3.org/2003/01/geo/wgs84_pos#long
+<http://www.w3.org/2003/01/geo/wgs84_pos#long> rdf:type owl:DatatypeProperty ;
+                                               rdfs:domain <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.opengis.net/ont/geosparql#Feature
+<http://www.opengis.net/ont/geosparql#Feature> rdf:type owl:Class ;
+                                               rdfs:subClassOf <http://www.opengis.net/ont/geosparql#SpatialObject> ;
+                                               owl:disjointWith <http://www.opengis.net/ont/geosparql#Geometry> ;
+                                               <http://purl.org/dc/elements/1.1/contributor> "Matthew Perry" ;
+                                               <http://purl.org/dc/elements/1.1/creator> "OGC GeoSPARQL 1.0 Standard Working Group" ;
+                                               <http://purl.org/dc/elements/1.1/date> "2011-06-16"^^xsd:date ;
+                                               <http://purl.org/dc/elements/1.1/description> """
+      This class represents the top-level feature type. This class is 
+      equivalent to GFI_Feature defined in ISO 19156:2011, and it is 
+      superclass of all feature types.
+    """@en ;
+                                               rdfs:comment """
+      This class represents the top-level feature type. This class is 
+      equivalent to GFI_Feature defined in ISO 19156:2011, and it is 
+      superclass of all feature types.
+    """@en ;
+                                               rdfs:isDefinedBy <http://www.opengis.net/ont/geosparql> ,
+                                                                <http://www.opengis.net/ont/gml> ,
+                                                                <http://www.opengis.net/spec/geosparql/1.0> ;
+                                               rdfs:label "Feature"@en ;
+                                               <http://www.w3.org/2004/02/skos/core#definition> """
+      This class represents the top-level feature type. This class is 
+      equivalent to GFI_Feature defined in ISO 19156:2011, and it is 
+      superclass of all feature types.
+    """@en ;
+                                               <http://www.w3.org/2004/02/skos/core#prefLabel> "Feature"@en .
+
+
+###  http://www.opengis.net/ont/geosparql#Geometry
+<http://www.opengis.net/ont/geosparql#Geometry> rdf:type owl:Class ;
+                                                rdfs:subClassOf <http://www.opengis.net/ont/geosparql#SpatialObject> ;
+                                                <http://purl.org/dc/elements/1.1/contributor> "Matthew Perry" ;
+                                                <http://purl.org/dc/elements/1.1/creator> "OGC GeoSPARQL 1.0 Standard Working Group" ;
+                                                <http://purl.org/dc/elements/1.1/date> "2011-06-16"^^xsd:date ;
+                                                <http://purl.org/dc/elements/1.1/description> """
+      The class represents the top-level geometry type. This class is 
+      equivalent to the UML class GM_Object defined in ISO 19107, and 
+      it is superclass of all geometry types.
+    """@en ;
+                                                rdfs:comment """
+      The class represents the top-level geometry type. This class is 
+      equivalent to the UML class GM_Object defined in ISO 19107, and 
+      it is superclass of all geometry types.
+    """@en ;
+                                                rdfs:isDefinedBy <http://www.opengis.net/ont/geosparql> ,
+                                                                 <http://www.opengis.net/ont/gml> ,
+                                                                 <http://www.opengis.net/spec/geosparql/1.0> ;
+                                                rdfs:label "Geometry"@en ;
+                                                <http://www.w3.org/2004/02/skos/core#definition> """
+      The class represents the top-level geometry type. This class is 
+      equivalent to the UML class GM_Object defined in ISO 19107, and 
+      it is superclass of all geometry types.
+    """@en ;
+                                                <http://www.w3.org/2004/02/skos/core#prefLabel> "Geometry"@en .
+
+
+###  http://www.opengis.net/ont/geosparql#SpatialObject
+<http://www.opengis.net/ont/geosparql#SpatialObject> rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#District
+:District rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Institution
+:Institution rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingSlot
+:ParkingSlot rdf:type owl:Class ;
+             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasGeometry ;
+                               owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :pricing ;
+                               owl:someValuesFrom :Pricing
+                             ] .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Pricing
+:Pricing rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :period ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :PricingPeriod
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :cost ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onDataRange xsd:positiveInteger
+                         ] .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PricingPeriod
+:PricingPeriod rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Road
+:Road rdf:type owl:Class ;
+      owl:disjointWith :Terrain .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Terrain
+:Terrain rdf:type owl:Class .
+
+
+###  http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing
+<http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A133
+:A133 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :A133Geom ;
+      :head :A134 ;
+      :located :Ville-Marie ;
+      :onRoad :Sherbrooke ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :active "true"^^xsd:boolean ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A133Geom
+:A133Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.490463"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.58865"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A134
+:A134 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :A134Geom ;
+      :located :Ville-Marie ;
+      :onRoad :Sherbrooke ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :active "true"^^xsd:boolean ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A134Geom
+:A134Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.490463"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.58865"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A190
+:A190 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :A190Geom ;
+      :located :Ville-Marie ;
+      :onRoad :Sherbrooke ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :active "true"^^xsd:boolean ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A190Geom
+:A190Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49308"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.58545"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Côte-des-Neiges
+:Côte-des-Neiges rdf:type owl:NamedIndividual ,
+                          :Road .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Côte-des-Neiges_-_Notre-Dame-de-Grâce
+:Côte-des-Neiges_-_Notre-Dame-de-Grâce rdf:type owl:NamedIndividual ,
+                                                :District .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Day
+:Day rdf:type owl:NamedIndividual ,
+              :PricingPeriod .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Edouard-Montpetit
+:Edouard-Montpetit rdf:type owl:NamedIndividual ,
+                            :Road .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Hour
+:Hour rdf:type owl:NamedIndividual ,
+               :PricingPeriod .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Le_Plateau-Mont-Royal
+:Le_Plateau-Mont-Royal rdf:type owl:NamedIndividual ,
+                                :District .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD444
+:PD444 rdf:type owl:NamedIndividual ,
+                :ParkingSlot ;
+       :hasGeometry :PD444Geom ;
+       :located :Le_Plateau-Mont-Royal ;
+       :onRoad :Émile-Duployé ;
+       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
+                <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
+       :active "true"^^xsd:boolean ;
+       :bikeRack "false"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD444Geom
+:PD444Geom rdf:type owl:NamedIndividual ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.529644"^^xsd:float ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.57"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD445
+:PD445 rdf:type owl:NamedIndividual ,
+                :ParkingSlot ;
+       :hasGeometry :PD445Geom ;
+       :head :PD446 ;
+       :located :Le_Plateau-Mont-Royal ;
+       :onRoad :Émile-Duployé ;
+       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
+                <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
+       :active "true"^^xsd:boolean ;
+       :bikeRack "false"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD445Geom
+:PD445Geom rdf:type owl:NamedIndividual ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.529613"^^xsd:float ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.56993"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD446
+:PD446 rdf:type owl:NamedIndividual ,
+                :ParkingSlot ;
+       :hasGeometry :PD446Geom ;
+       :located :Le_Plateau-Mont-Royal ;
+       :onRoad :Émile-Duployé ;
+       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
+                <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
+       :active "true"^^xsd:boolean ;
+       :bikeRack "false"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD446Geom
+:PD446Geom rdf:type owl:NamedIndividual ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.529613"^^xsd:float ;
+           <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.56993"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PolyGeom
+:PolyGeom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.505"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.614"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Polytechnique
+:Polytechnique rdf:type owl:NamedIndividual ,
+                        :Institution ;
+               :hasGeometry :PolyGeom .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R361
+:R361 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :R361Geom ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Côte-des-Neiges ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :bikeRack "false"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R361Geom
+:R361Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49623"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.58536"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R362
+:R362 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :R362Geom ;
+      :head :R363 ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Côte-des-Neiges ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R362Geom
+:R362Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49624"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.58522"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R363
+:R363 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :R363Geom ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Côte-des-Neiges ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R363Geom
+:R363Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Sherbrooke
+:Sherbrooke rdf:type owl:NamedIndividual ,
+                     :Road .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280
+:U280 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :U280Geom ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Edouard-Montpetit ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
+      :bikeRack "false"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280Geom
+:U280Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49708"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.624565"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U284
+:U284 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :U284Geom ;
+      :head :U285 ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Edouard-Montpetit ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U284Geom
+:U284Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49691"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.62452"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U285
+:U285 rdf:type owl:NamedIndividual ,
+               :ParkingSlot ;
+      :hasGeometry :U285Geom ;
+      :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
+      :onRoad :Edouard-Montpetit ;
+      :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
+      :bikeRack "true"^^xsd:boolean .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U285Geom
+:U285Geom rdf:type owl:NamedIndividual ,
+                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49691"^^xsd:float ;
+          <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.62452"^^xsd:float .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Ville-Marie
+:Ville-Marie rdf:type owl:NamedIndividual ,
+                      :District .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Émile-Duployé
+:Émile-Duployé rdf:type owl:NamedIndividual ,
+                        :Road .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> rdf:type owl:NamedIndividual ,
+                                                                                  :Pricing ;
+                                                                         :period :Hour ;
+                                                                         :cost "300"^^xsd:positiveInteger .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> rdf:type owl:NamedIndividual ,
+                                                                                  :Pricing ;
+                                                                         :period :Hour ;
+                                                                         :cost "350"^^xsd:positiveInteger .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> rdf:type owl:NamedIndividual ,
+                                                                                 :Pricing ;
+                                                                        :period :Day ;
+                                                                        :cost "900"^^xsd:positiveInteger .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Day
+                        :Hour
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Sherbrooke
+                        :Émile-Duployé
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay>
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

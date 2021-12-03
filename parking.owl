@@ -40,6 +40,14 @@
 <http://www.w3.org/2004/02/skos/core#prefLabel> rdf:type owl:AnnotationProperty .
 
 
+###  http://www.w3.org/2007/05/powder-s#describedby
+<http://www.w3.org/2007/05/powder-s#describedby> rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#wasDerivedFrom
+<http://www.w3.org/ns/prov#wasDerivedFrom> rdf:type owl:AnnotationProperty .
+
+
 #################################################################
 #    Datatypes
 #################################################################
@@ -67,15 +75,13 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#located
 :located rdf:type owl:ObjectProperty ,
                   owl:TransitiveProperty ;
-         rdfs:domain :ParkingSlot ;
-         rdfs:range :District .
+         rdfs:domain :ParkingSlot .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#onRoad
 :onRoad rdf:type owl:ObjectProperty ,
                  owl:FunctionalProperty ;
-        rdfs:domain :ParkingSlot ;
-        rdfs:range :Road .
+        rdfs:domain :ParkingSlot .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#onTerrain
@@ -126,6 +132,87 @@ xsd:date rdf:type rdfs:Datatype .
 #################################################################
 #    Classes
 #################################################################
+
+###  http://dbpedia.org/ontology/Arrondissement
+<http://dbpedia.org/ontology/Arrondissement> rdf:type owl:Class ;
+                                             rdfs:subClassOf <http://dbpedia.org/ontology/GovernmentalAdministrativeRegion> ;
+                                             rdfs:comment "An administrative (France) or lawcourts (Netherlands) body governing a territorial unity on the intermediate level, between local and national level"@en ,
+                                                          "Das Wort Arrondissement dient zur Bezeichnung verschiedener Verwaltungsbezirke in Frankreich, Belgien, Kanada und anderen Ländern"@de ,
+                                                          "ایک انتظامی (فرانس) یا قانون کی عدالتیں (نیدرلینڈز) جو کہ علاقائی وحدت پر مقامی اور قومی سطح کے درمیان حکمرانی کرتی ہیں"@ur ;
+                                             rdfs:isDefinedBy <http://dbpedia.org/ontology/> ;
+                                             rdfs:label "arrondissement"@de ,
+                                                        "arrondissement"@en ,
+                                                        "arrondissement"@fr ,
+                                                        "arrondissement"@nl ,
+                                                        "فرانس کا انتظامی ضلع"@ur ,
+                                                        "フランスの群"@ja ;
+                                             <http://www.w3.org/2007/05/powder-s#describedby> <http://dbpedia.org/ontology/data/definitions.ttl> ;
+                                             <http://www.w3.org/ns/prov#wasDerivedFrom> <http://mappings.dbpedia.org/index.php/OntologyClass:Arrondissement> .
+
+
+###  http://dbpedia.org/ontology/City
+<http://dbpedia.org/ontology/City> rdf:type owl:Class ;
+                                   rdfs:subClassOf <http://dbpedia.org/ontology/Settlement> ;
+                                   rdfs:comment "Actualmente considérase como unha entidade urbana con alta densidade de poboación na que predominan fundamentalmente a industria e os servizos."@gl ,
+                                                "a relatively large and permanent settlement, particularly a large urban settlement"@en ,
+                                                "un asentamiento permanente y relativamente grande, especialmente un gran asentamiento urbano"@es ,
+                                                "ایک نسبتا  بڑی اور مستقل آبادی ، خاص طور پر ایک بڑی شہری بستی"@ur ;
+                                   rdfs:isDefinedBy <http://dbpedia.org/ontology/> ;
+                                   rdfs:label "Stadt"@de ,
+                                              "by"@da ,
+                                              "cathair"@ga ,
+                                              "cidade"@gl ,
+                                              "cidade"@pt ,
+                                              "città"@it ,
+                                              "city"@en ,
+                                              "ciudad"@es ,
+                                              "miasto"@pl ,
+                                              "stad"@nl ,
+                                              "ville"@fr ,
+                                              "πόλη"@el ,
+                                              "شہر"@ur ,
+                                              "शहर"@hi ,
+                                              "市"@ja ,
+                                              "도시"@ko ;
+                                   <http://www.w3.org/2007/05/powder-s#describedby> <http://dbpedia.org/ontology/data/definitions.ttl> ;
+                                   <http://www.w3.org/ns/prov#wasDerivedFrom> <http://mappings.dbpedia.org/index.php/OntologyClass:City> .
+
+
+###  http://dbpedia.org/ontology/GovernmentalAdministrativeRegion
+<http://dbpedia.org/ontology/GovernmentalAdministrativeRegion> rdf:type owl:Class .
+
+
+###  http://dbpedia.org/ontology/Road
+<http://dbpedia.org/ontology/Road> rdf:type owl:Class ;
+                                   rdfs:subClassOf <http://dbpedia.org/ontology/RouteOfTransportation> ;
+                                   rdfs:isDefinedBy <http://dbpedia.org/ontology/> ;
+                                   rdfs:label "Straße"@de ,
+                                              "bóthar"@ga ,
+                                              "carretera"@ca ,
+                                              "carretera"@es ,
+                                              "droga"@pl ,
+                                              "road"@en ,
+                                              "route"@fr ,
+                                              "weg"@nl ,
+                                              "δρόμος"@el ,
+                                              "道路"@ja ,
+                                              "도로"@ko ;
+                                   <http://www.w3.org/2007/05/powder-s#describedby> <http://dbpedia.org/ontology/data/definitions.ttl> ;
+                                   <http://www.w3.org/ns/prov#wasDerivedFrom> <http://mappings.dbpedia.org/index.php/OntologyClass:Road> .
+
+
+###  http://dbpedia.org/ontology/RouteOfTransportation
+<http://dbpedia.org/ontology/RouteOfTransportation> rdf:type owl:Class ;
+                                                    owl:disjointWith :Terrain .
+
+
+###  http://dbpedia.org/ontology/Settlement
+<http://dbpedia.org/ontology/Settlement> rdf:type owl:Class .
+
+
+###  http://schema.org/Organization
+<http://schema.org/Organization> rdf:type owl:Class .
+
 
 ###  http://www.opengis.net/ont/geosparql#Feature
 <http://www.opengis.net/ont/geosparql#Feature> rdf:type owl:Class ;
@@ -188,14 +275,6 @@ xsd:date rdf:type rdfs:Datatype .
 <http://www.opengis.net/ont/geosparql#SpatialObject> rdf:type owl:Class .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#District
-:District rdf:type owl:Class .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Institution
-:Institution rdf:type owl:Class .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingSlot
 :ParkingSlot rdf:type owl:Class ;
              rdfs:subClassOf [ rdf:type owl:Restriction ;
@@ -224,11 +303,6 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PricingPeriod
 :PricingPeriod rdf:type owl:Class .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Road
-:Road rdf:type owl:Class ;
-      owl:disjointWith :Terrain .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Terrain
@@ -300,12 +374,13 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Côte-des-Neiges
 :Côte-des-Neiges rdf:type owl:NamedIndividual ,
-                          :Road .
+                          <http://dbpedia.org/ontology/Road> .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Côte-des-Neiges_-_Notre-Dame-de-Grâce
 :Côte-des-Neiges_-_Notre-Dame-de-Grâce rdf:type owl:NamedIndividual ,
-                                                :District .
+                                                <http://dbpedia.org/ontology/Arrondissement> ;
+                                       :located :Montreal .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Day
@@ -315,7 +390,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Edouard-Montpetit
 :Edouard-Montpetit rdf:type owl:NamedIndividual ,
-                            :Road .
+                            <http://dbpedia.org/ontology/Road> .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Hour
@@ -325,7 +400,13 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Le_Plateau-Mont-Royal
 :Le_Plateau-Mont-Royal rdf:type owl:NamedIndividual ,
-                                :District .
+                                <http://dbpedia.org/ontology/Arrondissement> ;
+                       :located :Montreal .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Montreal
+:Montreal rdf:type owl:NamedIndividual ,
+                   <http://dbpedia.org/ontology/City> .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD444
@@ -392,7 +473,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Polytechnique
 :Polytechnique rdf:type owl:NamedIndividual ,
-                        :Institution ;
+                        <http://schema.org/Organization> ;
                :hasGeometry :PolyGeom .
 
 
@@ -448,7 +529,7 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Sherbrooke
 :Sherbrooke rdf:type owl:NamedIndividual ,
-                     :Road .
+                     <http://dbpedia.org/ontology/Road> .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280
@@ -505,12 +586,18 @@ xsd:date rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Ville-Marie
 :Ville-Marie rdf:type owl:NamedIndividual ,
-                      :District .
+                      <http://dbpedia.org/ontology/Arrondissement> ;
+             :located :Montreal .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Year
+:Year rdf:type owl:NamedIndividual ,
+               :PricingPeriod .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Émile-Duployé
 :Émile-Duployé rdf:type owl:NamedIndividual ,
-                        :Road .
+                        <http://dbpedia.org/ontology/Road> .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour

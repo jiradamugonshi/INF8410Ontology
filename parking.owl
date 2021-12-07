@@ -144,6 +144,13 @@ xsd:date rdf:type rdfs:Datatype .
       rdfs:label "tête"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#joursAppliqués
+:joursAppliqués rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty ;
+                rdfs:domain :PeriodeReglementation ;
+                rdfs:range <http://www.w3.org/2006/time#DayOfWeek> .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#located
 :located rdf:type owl:ObjectProperty ,
                   owl:TransitiveProperty ;
@@ -225,6 +232,13 @@ xsd:date rdf:type rdfs:Datatype .
           rdfs:range xsd:boolean ;
           rdfs:comment "Indique la présence d'un support à vélo ou non"@fr ;
           rdfs:label "support vélo"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#codeReglementation
+:codeReglementation rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain :TypeReglementation ;
+                    rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#cost
@@ -580,6 +594,27 @@ places de stationnement."""@fr ;
                      rdfs:label "Type usage de la palce de stationnement"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PeriodeReglementation
+:PeriodeReglementation rdf:type owl:Class ;
+                       rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :joursAppliqués ;
+                                                                owl:someValuesFrom <http://www.w3.org/2006/time#DayOfWeek>
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :end ;
+                                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                owl:onDataRange xsd:dateTime
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :start ;
+                                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                owl:onDataRange xsd:dateTime
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Pricing
 :Pricing rdf:type owl:Class ;
          owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
@@ -601,19 +636,19 @@ places de stationnement."""@fr ;
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PricingPeriod
 :PricingPeriod rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :end ;
-                                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                            owl:onDataRange xsd:dateTime
-                                                          ]
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :start ;
-                                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                            owl:onDataRange xsd:dateTime
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
+               rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :end ;
+                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                        owl:onDataRange xsd:dateTime
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :start ;
+                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                        owl:onDataRange xsd:dateTime
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
                rdfs:label "Période de tarification"@fr .
 
 
@@ -634,6 +669,29 @@ places de stationnement."""@fr ;
                                   ] .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#TypeReglementation
+:TypeReglementation rdf:type owl:Class ;
+                    rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :codeReglementation ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onDataRange xsd:string
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :description ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onDataRange xsd:string
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :name ;
+                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                             owl:onDataRange xsd:string
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                    rdfs:comment "Types de règlementations"@fr .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Vignette
 :Vignette rdf:type owl:Class ;
           rdfs:subClassOf [ rdf:type owl:Restriction ;
@@ -646,6 +704,10 @@ places de stationnement."""@fr ;
 
 ###  http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing
 <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> rdf:type owl:Class .
+
+
+###  http://www.w3.org/2006/time#DayOfWeek
+<http://www.w3.org/2006/time#DayOfWeek> rdf:type owl:Class .
 
 
 #################################################################
@@ -1010,6 +1072,14 @@ places de stationnement."""@fr ;
                    <http://www.opengis.net/ont/geosparql#Geometry> .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ReglementationUtilistation
+:ReglementationUtilistation rdf:type owl:NamedIndividual ,
+                                     :TypeReglementation ;
+                            :codeReglementation "U"^^xsd:string ;
+                            :description "Pas de signalisation sur rue, par contre l'information doit toujours correspondre à la péridode tarifée"^^xsd:string ;
+                            :name "Utilisation"^^xsd:string .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#RegulierPartezAffichez
 :RegulierPartezAffichez rdf:type owl:NamedIndividual ,
                                  :TypeExploitation ;
@@ -1243,6 +1313,41 @@ places de stationnement."""@fr ;
                                                                           :period :Year ;
                                                                           :cost "9000"^^xsd:positiveInteger ;
                                                                           :name "9000 cents par année"^^xsd:string .
+
+
+###  http://www.w3.org/2006/time#Friday
+<http://www.w3.org/2006/time#Friday> rdf:type owl:NamedIndividual ,
+                                              <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Monday
+<http://www.w3.org/2006/time#Monday> rdf:type owl:NamedIndividual ,
+                                              <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Saturday
+<http://www.w3.org/2006/time#Saturday> rdf:type owl:NamedIndividual ,
+                                                <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Sunday
+<http://www.w3.org/2006/time#Sunday> rdf:type owl:NamedIndividual ,
+                                              <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Thursday
+<http://www.w3.org/2006/time#Thursday> rdf:type owl:NamedIndividual ,
+                                                <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Tuesday
+<http://www.w3.org/2006/time#Tuesday> rdf:type owl:NamedIndividual ,
+                                               <http://www.w3.org/2006/time#DayOfWeek> .
+
+
+###  http://www.w3.org/2006/time#Wednesday
+<http://www.w3.org/2006/time#Wednesday> rdf:type owl:NamedIndividual ,
+                                                 <http://www.w3.org/2006/time#DayOfWeek> .
 
 
 #################################################################

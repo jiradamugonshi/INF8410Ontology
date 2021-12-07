@@ -100,7 +100,7 @@ xsd:date rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#contains
 :contains rdf:type owl:ObjectProperty ;
           owl:inverseOf :onTerrain ;
-          rdfs:domain :Terrain ;
+          rdfs:domain :AireDeStaionnement ;
           rdfs:range [ rdf:type owl:Class ;
                        owl:unionOf ( :ParkingMeter
                                      :ParkingSlot
@@ -174,14 +174,14 @@ xsd:date rdf:type rdfs:Datatype .
                                        :ParkingSlot
                                      )
                        ] ;
-           rdfs:range :Terrain ;
+           rdfs:range :AireDeStaionnement ;
            rdfs:comment "Indique le terrain (hors la rue) où la place de stationnement est situé."@fr ;
            rdfs:label "sur le terrain"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#openOn
 :openOn rdf:type owl:ObjectProperty ;
-        rdfs:domain :Terrain ;
+        rdfs:domain :AireDeStaionnement ;
         rdfs:range <http://dbpedia.org/ontology/Road> ;
         rdfs:comment "Indique la rue sur laquelle ouvre un terrain contenant des places de stationnement."@fr ;
         rdfs:label "ouvre sur"@fr .
@@ -510,6 +510,20 @@ places de stationnement."""@fr ;
 <http://www.opengis.net/ont/geosparql#SpatialObject> rdf:type owl:Class .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AireDeStaionnement
+:AireDeStaionnement rdf:type owl:Class ;
+                    owl:equivalentClass [ rdf:type owl:Restriction ;
+                                          owl:onProperty :contains ;
+                                          owl:someValuesFrom [ rdf:type owl:Class ;
+                                                               owl:unionOf ( :ParkingMeter
+                                                                             :ParkingSlot
+                                                                           )
+                                                             ]
+                                        ] ;
+                    rdfs:comment "Un terrain regroupant plusieurs places de stationnement hors la rue." ;
+                    rdfs:label "Aire de stationnement"@fr .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingMeter
 :ParkingMeter rdf:type owl:Class ;
               owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
@@ -594,20 +608,6 @@ places de stationnement."""@fr ;
                                      rdf:type owl:Class
                                    ] ;
                rdfs:label "Période de tarification"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Terrain
-:Terrain rdf:type owl:Class ;
-         owl:equivalentClass [ rdf:type owl:Restriction ;
-                               owl:onProperty :contains ;
-                               owl:someValuesFrom [ rdf:type owl:Class ;
-                                                    owl:unionOf ( :ParkingMeter
-                                                                  :ParkingSlot
-                                                                )
-                                                  ]
-                             ] ;
-         rdfs:comment "Un terrain regroupant plusieurs places de stationnement hors la rue." ;
-         rdfs:label "Terrain"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Vignette
@@ -1156,14 +1156,14 @@ places de stationnement."""@fr ;
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst> rdf:type owl:NamedIndividual ,
-                                                                                           :Terrain ;
+                                                                                           :AireDeStaionnement ;
                                                                                   :openOn :Fleury ;
                                                                                   :name "335 Rue Fleury Voie Est"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> rdf:type owl:NamedIndividual ,
-                                                                                            :Terrain ;
+                                                                                            :AireDeStaionnement ;
                                                                                    :openOn :Fleury ;
                                                                                    :name "335 Rue Fleury Voie Nord"^^xsd:string .
 
@@ -1200,17 +1200,23 @@ places de stationnement."""@fr ;
                                                                           :name "9000 cents par année"^^xsd:string .
 
 
+[ rdf:type [ rdf:type owl:Restriction ;
+             owl:onProperty owl:topDataProperty ;
+             owl:someValuesFrom xsd:Name
+           ]
+] .
+
 #################################################################
 #    General axioms
 #################################################################
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <http://dbpedia.org/ontology/Road>
-                :ParkingMeter
-                :ParkingSlot
-                :Terrain
-              )
-] .
+   owl:members ( <http://dbpedia.org/ontology/Road>
+                 :AireDeStaionnement
+                 :ParkingMeter
+                 :ParkingSlot
+               )
+ ] .
 
 
 [ rdf:type owl:AllDifferent ;

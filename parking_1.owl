@@ -118,6 +118,12 @@ xsd:date rdf:type rdfs:Datatype .
           rdfs:label "point de collecte"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#gère
+:gère rdf:type owl:ObjectProperty ;
+      rdfs:domain :Gestionnaire ;
+      rdfs:range :AireDeStationnement .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasCategory
 :hasCategory rdf:type owl:ObjectProperty ,
                       owl:FunctionalProperty ;
@@ -202,6 +208,12 @@ xsd:date rdf:type rdfs:Datatype .
         rdfs:label "période"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#periode
+:periode rdf:type owl:ObjectProperty ;
+         rdfs:domain :Reglementation ;
+         rdfs:range :PeriodeReglementation .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#pricing
 :pricing rdf:type owl:ObjectProperty ;
          rdfs:domain [ rdf:type owl:Class ;
@@ -212,6 +224,12 @@ xsd:date rdf:type rdfs:Datatype .
          rdfs:range :Pricing ;
          rdfs:comment "Indique la propriété qui relie un objet à sa tarification."@fr ;
          rdfs:label "tarif"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#type
+:type rdf:type owl:ObjectProperty ;
+      rdfs:domain :Reglementation ;
+      rdfs:range :TypeReglementation .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#vehicleType
@@ -261,6 +279,13 @@ xsd:date rdf:type rdfs:Datatype .
      rdfs:domain owl:Thing ;
      rdfs:range xsd:dateTime ;
      rdfs:label "fin"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#maxHeures
+:maxHeures rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain :Reglementation ;
+           rdfs:range xsd:nonPositiveInteger .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#name
@@ -545,6 +570,23 @@ places de stationnement."""@fr ;
                      rdfs:label "Aire de stationnement"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Gestionnaire
+:Gestionnaire rdf:type owl:Class ;
+              rdfs:subClassOf [ owl:intersectionOf ( <http://schema.org/Organization>
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :gère ;
+                                                       owl:someValuesFrom :AireDeStationnement
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :name ;
+                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                       owl:onDataRange xsd:string
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingMeter
 :ParkingMeter rdf:type owl:Class ;
               owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
@@ -592,6 +634,23 @@ places de stationnement."""@fr ;
 :ParkingSlotCategory rdf:type owl:Class ;
                      rdfs:comment "Le type d'usage pour une place de stationnement: usage normal, mobilité réduite, voiture électrique ou voiture électrique en charge." ;
                      rdfs:label "Type usage de la palce de stationnement"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Periode
+:Periode rdf:type owl:Class ;
+         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :end ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onDataRange xsd:dateTime
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :start ;
+                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                      owl:onDataRange xsd:dateTime
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PeriodeReglementation
@@ -650,6 +709,38 @@ places de stationnement."""@fr ;
                                  rdf:type owl:Class
                                ] ;
                rdfs:label "Période de tarification"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Reglementation
+:Reglementation rdf:type owl:Class ;
+                rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :periode ;
+                                                         owl:someValuesFrom :PeriodeReglementation
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :type ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onClass :TypeReglementation
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :end ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onDataRange xsd:dateTime
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :maxHeures ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onDataRange xsd:nonPositiveInteger
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :start ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onDataRange xsd:dateTime
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+                rdfs:comment "Réglémentation"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#TypeExploitation

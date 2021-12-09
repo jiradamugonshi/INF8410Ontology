@@ -83,19 +83,9 @@ xsd:time rdf:type rdfs:Datatype .
        rdfs:label "applique"@fr .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#categoryAppliedIn
-:categoryAppliedIn rdf:type owl:ObjectProperty ;
-                   owl:inverseOf :hasCategory ;
-                   rdf:type owl:InverseFunctionalProperty ;
-                   rdfs:domain :ParkingSlotCategory ;
-                   rdfs:range :ParkingSlot ;
-                   rdfs:comment "Indique la propriété qui relie un type d'usage à la liste des places de stationnement où ce type est applicable."@fr ;
-                   rdfs:label "catégorie appliquée dans"@fr .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#collect
 :collect rdf:type owl:ObjectProperty ;
-         rdfs:domain :ParkingMeter ;
+         rdfs:domain :ModaliteDeTarification ;
          rdfs:range :Pricing ;
          rdfs:comment "Indique le fait de collecter les tarifs."@fr ;
          rdfs:label "collecte"@fr .
@@ -106,7 +96,7 @@ xsd:time rdf:type rdfs:Datatype .
           owl:inverseOf :onTerrain ;
           rdfs:domain :AireDeStationnement ;
           rdfs:range [ rdf:type owl:Class ;
-                       owl:unionOf ( :ParkingMeter
+                       owl:unionOf ( :ParcomètreHorsRue
                                      :ParkingSlot
                                    )
                      ] ;
@@ -116,10 +106,10 @@ xsd:time rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#endPoint
 :endPoint rdf:type owl:ObjectProperty ;
-          rdfs:domain :ParkingMeter ;
+          rdfs:domain :ModaliteDeTarification ;
           rdfs:range :ParkingSlot ;
           rdfs:comment "Indique la propriété qui relie le parcomètre à certains places de stationnement."@fr ;
-          rdfs:label "point de collecte"@fr .
+          rdfs:label "lié à"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#gère
@@ -130,15 +120,6 @@ xsd:time rdf:type rdfs:Datatype .
                                  :ModaliteDeTarification
                                )
                  ] .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasCategory
-:hasCategory rdf:type owl:ObjectProperty ,
-                      owl:FunctionalProperty ;
-             rdfs:domain :ParkingSlot ;
-             rdfs:range :ParkingSlotCategory ;
-             rdfs:comment "Indique la propriété qui relie une place de stationnement à un type d'usage."@fr ;
-             rdfs:label "catégorie"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasGeometry
@@ -185,7 +166,7 @@ xsd:time rdf:type rdfs:Datatype .
 :onRoad rdf:type owl:ObjectProperty ,
                  owl:FunctionalProperty ;
         rdfs:domain [ rdf:type owl:Class ;
-                      owl:unionOf ( :ParkingMeter
+                      owl:unionOf ( :Parcomètre
                                     :ParkingSlot
                                   )
                     ] ;
@@ -198,7 +179,7 @@ xsd:time rdf:type rdfs:Datatype .
 :onTerrain rdf:type owl:ObjectProperty ,
                     owl:FunctionalProperty ;
            rdfs:domain [ rdf:type owl:Class ;
-                         owl:unionOf ( :ParkingMeter
+                         owl:unionOf ( :ParcomètreHorsRue
                                        :ParkingSlot
                                      )
                        ] ;
@@ -215,6 +196,13 @@ xsd:time rdf:type rdfs:Datatype .
         rdfs:label "ouvre sur"@fr .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#payéPar
+:payéPar rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain :AireDeStationnement ;
+         rdfs:range :ModaliteDeTarification .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#period
 :period rdf:type owl:ObjectProperty ;
         rdfs:domain :Pricing ;
@@ -226,7 +214,9 @@ xsd:time rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#periode
 :periode rdf:type owl:ObjectProperty ;
          rdfs:domain :Reglementation ;
-         rdfs:range :PeriodeReglementation .
+         rdfs:range :PeriodeReglementation ;
+         rdfs:comment "périodeDeReglememtation"@fr ;
+         rdfs:label "periodeDeReglementation"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#pricing
@@ -239,6 +229,17 @@ xsd:time rdf:type rdfs:Datatype .
          rdfs:range :Pricing ;
          rdfs:comment "Indique la propriété qui relie un objet à sa tarification."@fr ;
          rdfs:label "tarif"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#reglémentéPar
+:reglémentéPar rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:domain [ rdf:type owl:Class ;
+                             owl:unionOf ( :ParkingMeter
+                                           :ParkingSlot
+                                         )
+                           ] ;
+               rdfs:range :Reglementation .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#transportsEnCommunProche
@@ -272,6 +273,14 @@ xsd:time rdf:type rdfs:Datatype .
           rdfs:range xsd:boolean ;
           rdfs:comment "Indique la présence d'un support à vélo ou non"@fr ;
           rdfs:label "support vélo"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#catégorie
+:catégorie rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdf:type owl:FunctionalProperty ;
+           rdfs:domain :ParkingSlot ;
+           rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#codeReglementation
@@ -628,13 +637,22 @@ places de stationnement."""@fr ;
                                                                                      ]
                                                                 ]
                                                                 [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty :payéPar ;
+                                                                  owl:allValuesFrom :ModaliteDeTarification
+                                                                ]
+                                                                [ rdf:type owl:Restriction ;
                                                                   owl:onProperty :placesMax ;
                                                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                                  owl:onDataRange xsd:nonPositiveInteger
+                                                                  owl:onDataRange xsd:positiveInteger
                                                                 ]
                                                               ) ;
                                            rdf:type owl:Class
                                          ] ;
+                     rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                       owl:onProperty :onTerrain ;
+                                       owl:someValuesFrom :AireDeStationnement
+                                     ] ;
+                     owl:disjointWith <https://www.wikidata.org/wiki/Q12819564> ;
                      rdfs:comment "Un terrain regroupant plusieurs places de stationnement hors la rue." ;
                      rdfs:label "Aire de stationnement"@fr .
 
@@ -652,6 +670,10 @@ places de stationnement."""@fr ;
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AireDeStationnementInstitutionnel
 :AireDeStationnementInstitutionnel rdf:type owl:Class ;
+                                   owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :institutionProche ;
+                                                         owl:someValuesFrom <http://schema.org/Organization>
+                                                       ] ;
                                    rdfs:subClassOf :AireDeStationnement .
 
 
@@ -674,60 +696,88 @@ places de stationnement."""@fr ;
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ModaliteDeTarification
 :ModaliteDeTarification rdf:type owl:Class ;
-                        owl:equivalentClass [ rdf:type owl:Restriction ;
-                                              owl:onProperty :mode ;
-                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                              owl:onDataRange xsd:string
+                        owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :collect ;
+                                                                     owl:allValuesFrom :Pricing
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :mode ;
+                                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                     owl:onDataRange xsd:string
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
                                             ] .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Parcomètre
+:Parcomètre rdf:type owl:Class ;
+            rdfs:subClassOf [ owl:intersectionOf ( :ModaliteDeTarification
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasGeometry ;
+                                                     owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParcomètreHorsRue
+:ParcomètreHorsRue rdf:type owl:Class ;
+                   rdfs:subClassOf [ owl:intersectionOf ( :Parcomètre
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :onTerrain ;
+                                                            owl:someValuesFrom :AireDeStationnement
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :reglémentéPar ;
+                                                            owl:someValuesFrom :Reglementation
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingMeter
 :ParkingMeter rdf:type owl:Class ;
-              owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :collect ;
-                                                           owl:someValuesFrom :Pricing
-                                                         ]
-                                                         [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :endPoint ;
-                                                           owl:someValuesFrom :ParkingSlot
-                                                         ]
-                                                         [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :mode ;
-                                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                           owl:onDataRange xsd:string
-                                                         ]
-                                                       ) ;
-                                    rdf:type owl:Class
-                                  ] ;
-              rdfs:subClassOf [ rdf:type owl:Restriction ;
+              rdfs:subClassOf :Parcomètre ,
+                              [ rdf:type owl:Restriction ;
                                 owl:onProperty :hasGeometry ;
                                 owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :onRoad ;
+                                owl:someValuesFrom <http://dbpedia.org/ontology/Road>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :zoneCode ;
+                                owl:someValuesFrom xsd:string
                               ] ;
               rdfs:comment "Un appareil dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
-              rdfs:label "Parcomètre"@fr .
+              rdfs:label "ParcomètreSurRue"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingSlot
 :ParkingSlot rdf:type owl:Class ;
-             owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                          owl:onProperty :hasCategory ;
-                                                          owl:someValuesFrom :ParkingSlotCategory
-                                                        ]
-                                                        [ rdf:type owl:Restriction ;
-                                                          owl:onProperty :pricing ;
-                                                          owl:someValuesFrom :Pricing
-                                                        ]
-                                                        [ rdf:type owl:Restriction ;
-                                                          owl:onProperty :typeUsage ;
-                                                          owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                          owl:onDataRange xsd:string
-                                                        ]
-                                                      ) ;
-                                   rdf:type owl:Class
-                                 ] ;
-             rdfs:subClassOf [ rdf:type owl:Restriction ;
+             rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :pricing ;
+                                                      owl:someValuesFrom :Pricing
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :reglémentéPar ;
+                                                      owl:maxQualifiedCardinality "10"^^xsd:nonNegativeInteger ;
+                                                      owl:onClass :Reglementation
+                                                    ]
+                                                  ) ;
+                               rdf:type owl:Class
+                             ] ,
+                             [ rdf:type owl:Restriction ;
                                owl:onProperty :hasGeometry ;
                                owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :catégorie ;
+                               owl:someValuesFrom xsd:string
                              ] ;
              owl:disjointWith :Vignette ;
              rdfs:comment "Une place de stationnement qui peut accueuillir un seul véhicule."@fr ;
@@ -737,7 +787,7 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingSlotCategory
 :ParkingSlotCategory rdf:type owl:Class ;
                      rdfs:comment "Le type d'usage pour une place de stationnement: usage normal, mobilité réduite, voiture électrique ou voiture électrique en charge." ;
-                     rdfs:label "Type usage de la palce de stationnement"@fr .
+                     rdfs:label "Type usage de la place de stationnement"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PeriodeReglementation
@@ -873,6 +923,10 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Vignette
 :Vignette rdf:type owl:Class ;
           rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :endPoint ;
+                                                   owl:someValuesFrom :ParkingSlot
+                                                 ]
+                                                 [ rdf:type owl:Restriction ;
                                                    owl:onProperty :pricing ;
                                                    owl:someValuesFrom :Pricing
                                                  ]
@@ -917,13 +971,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A133
 :A133 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :A133Geom ;
       :head :A134 ;
       :located :Ville-Marie ;
       :onRoad :Sherbrooke ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "A133"^^xsd:string .
 
 
@@ -937,12 +991,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A134
 :A134 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :A134Geom ;
       :located :Ville-Marie ;
       :onRoad :Sherbrooke ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "A134"^^xsd:string .
 
 
@@ -956,12 +1010,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A190
 :A190 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :A190Geom ;
       :located :Ville-Marie ;
       :onRoad :Sherbrooke ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "A190"^^xsd:string .
 
 
@@ -975,13 +1029,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC382
 :AC382 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC382Geom ;
        :head :AC383 ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "AC382"^^xsd:string .
 
 
@@ -995,12 +1049,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC383
 :AC383 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC383Geom ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "AC383"^^xsd:string .
 
 
@@ -1014,12 +1068,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC410
 :AC410 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC410Geom ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "AC410"^^xsd:string .
 
 
@@ -1137,13 +1191,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD444
 :PD444 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD444Geom ;
        :located :Le_Plateau-Mont-Royal ;
        :onRoad :Émile-Duployé ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "PD444"^^xsd:string .
 
 
@@ -1157,7 +1211,6 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD445
 :PD445 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD445Geom ;
        :head :PD446 ;
        :located :Le_Plateau-Mont-Royal ;
@@ -1165,6 +1218,7 @@ places de stationnement."""@fr ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "PD445"^^xsd:string .
 
 
@@ -1178,13 +1232,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD446
 :PD446 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
-       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD446Geom ;
        :located :Le_Plateau-Mont-Royal ;
        :onRoad :Émile-Duployé ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
+       :catégorie "Usage normal"^^xsd:string ;
        :name "PD446"^^xsd:string .
 
 
@@ -1219,12 +1273,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R361
 :R361 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :R361Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "R361"^^xsd:string .
 
 
@@ -1238,13 +1292,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R362
 :R362 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :R362Geom ;
       :head :R363 ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "362"^^xsd:string .
 
 
@@ -1258,12 +1312,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R363
 :R363 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :R363Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "R363"^^xsd:string .
 
 
@@ -1333,14 +1387,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280
 :U280 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForDisabled ;
       :hasGeometry :U280Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
-      :name "U280"^^xsd:string ;
-      :typeUsage "Réservé pour personnes à mobilité réduite"^^xsd:string .
+      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
+      :name "U280"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280Geom
@@ -1353,13 +1406,13 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U284
 :U284 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :U284Geom ;
       :head :U285 ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
       :name "U284"^^xsd:string .
 
 
@@ -1373,12 +1426,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U285
 :U285 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForNormalUsage ;
       :hasGeometry :U285Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
+      :catégorie "Usage normal"^^xsd:string ;
       :name "U285"^^xsd:string .
 
 
@@ -1392,12 +1445,12 @@ places de stationnement."""@fr ;
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U412
 :U412 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
-      :hasCategory :ForDisabled ;
       :hasGeometry :U412Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
+      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
       :name "U412"^^xsd:string .
 
 
@@ -1559,15 +1612,6 @@ places de stationnement."""@fr ;
 #################################################################
 #    General axioms
 #################################################################
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( <http://dbpedia.org/ontology/Road>
-                :AireDeStationnement
-                :ParkingMeter
-                :ParkingSlot
-              )
-] .
-
 
 [ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :A133

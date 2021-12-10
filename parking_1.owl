@@ -56,6 +56,10 @@
 xsd:date rdf:type rdfs:Datatype .
 
 
+###  http://www.w3.org/2001/XMLSchema#duration
+xsd:duration rdf:type rdfs:Datatype .
+
+
 ###  http://www.w3.org/2001/XMLSchema#gMonthDay
 xsd:gMonthDay rdf:type rdfs:Datatype .
 
@@ -215,7 +219,6 @@ xsd:time rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#period
 :period rdf:type owl:ObjectProperty ;
         rdfs:domain :Pricing ;
-        rdfs:range :PricingPeriod ;
         rdfs:comment "Indique la propriété qui relie un objet à sa période de tarification."@fr ;
         rdfs:label "période"@fr .
 
@@ -314,6 +317,13 @@ xsd:time rdf:type rdfs:Datatype .
              rdfs:range xsd:string .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#durée
+:durée rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty ;
+       rdfs:domain owl:Thing ;
+       rdfs:range xsd:duration .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#end
 :end rdf:type owl:DatatypeProperty ;
      rdfs:domain owl:Thing ;
@@ -361,7 +371,7 @@ xsd:time rdf:type rdfs:Datatype .
 :numéro rdf:type owl:DatatypeProperty ;
         rdfs:subPropertyOf owl:topDataProperty ;
         rdfs:domain :AireDeStationnement ;
-        rdfs:range xsd:positiveInteger .
+        rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#placesMax
@@ -673,7 +683,7 @@ places de stationnement."""@fr ;
                                                                 ]
                                                                 [ rdf:type owl:Restriction ;
                                                                   owl:onProperty :numéro ;
-                                                                  owl:someValuesFrom xsd:positiveInteger
+                                                                  owl:someValuesFrom xsd:string
                                                                 ]
                                                               ) ;
                                            rdf:type owl:Class
@@ -745,11 +755,16 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 :ModaliteDeTarification rdf:type owl:Class ;
                         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
                                                                      owl:onProperty :pricing ;
-                                                                     owl:allValuesFrom :Pricing
+                                                                     owl:someValuesFrom :Pricing
                                                                    ]
                                                                    [ rdf:type owl:Restriction ;
                                                                      owl:onProperty :mode ;
                                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                     owl:onDataRange xsd:string
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty :name ;
+                                                                     owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                                      owl:onDataRange xsd:string
                                                                    ]
                                                                  ) ;
@@ -759,46 +774,49 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Parcomètre
 :Parcomètre rdf:type owl:Class ;
-            rdfs:subClassOf [ owl:intersectionOf ( :ModaliteDeTarification
-                                                   [ rdf:type owl:Restriction ;
-                                                     owl:onProperty :hasGeometry ;
-                                                     owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
-                                                   ]
-                                                 ) ;
-                              rdf:type owl:Class
-                            ] .
+            owl:equivalentClass [ owl:intersectionOf ( :ModaliteDeTarification
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :hasGeometry ;
+                                                         owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParcomètreHorsRue
 :ParcomètreHorsRue rdf:type owl:Class ;
-                   rdfs:subClassOf [ owl:intersectionOf ( :Parcomètre
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :onTerrain ;
-                                                            owl:someValuesFrom :AireDeStationnement
-                                                          ]
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :reglémentéPar ;
-                                                            owl:someValuesFrom :Reglementation
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] .
+                   owl:equivalentClass [ owl:intersectionOf ( :Parcomètre
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :onTerrain ;
+                                                                owl:someValuesFrom :AireDeStationnement
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :reglémentéPar ;
+                                                                owl:someValuesFrom :Reglementation
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingMeter
 :ParkingMeter rdf:type owl:Class ;
-              rdfs:subClassOf :Parcomètre ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty :hasGeometry ;
-                                owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
-                              ] ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty :onRoad ;
-                                owl:someValuesFrom <http://dbpedia.org/ontology/Road>
-                              ] ,
-                              [ rdf:type owl:Restriction ;
-                                owl:onProperty :zoneCode ;
-                                owl:someValuesFrom xsd:string
+              rdfs:subClassOf [ owl:intersectionOf ( :Parcomètre
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :hasGeometry ;
+                                                       owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :onRoad ;
+                                                       owl:someValuesFrom <http://dbpedia.org/ontology/Road>
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :zoneCode ;
+                                                       owl:someValuesFrom xsd:string
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
                               ] ;
               rdfs:comment "Un appareil dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
               rdfs:label "ParcomètreSurRue"@fr .
@@ -870,9 +888,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Pricing
 :Pricing rdf:type owl:Class ;
          owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                      owl:onProperty :period ;
-                                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                      owl:onClass :PricingPeriod
+                                                      owl:onProperty :durée ;
+                                                      owl:allValuesFrom xsd:duration
                                                     ]
                                                     [ rdf:type owl:Restriction ;
                                                       owl:onProperty :cost ;
@@ -884,24 +901,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                              ] ;
          rdfs:comment "Tarif de la place (en cents)"@fr ;
          rdfs:label "Tarification"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PricingPeriod
-:PricingPeriod rdf:type owl:Class ;
-               rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                        owl:onProperty :end ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onDataRange xsd:dateTime
-                                                      ]
-                                                      [ rdf:type owl:Restriction ;
-                                                        owl:onProperty :start ;
-                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                        owl:onDataRange xsd:dateTime
-                                                      ]
-                                                    ) ;
-                                 rdf:type owl:Class
-                               ] ;
-               rdfs:label "Période de tarification"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Reglementation
@@ -982,30 +981,32 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Vignette
 :Vignette rdf:type owl:Class ;
-          rdfs:subClassOf [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                   owl:onProperty :pricing ;
-                                                   owl:someValuesFrom :Pricing
-                                                 ]
-                                                 [ rdf:type owl:Restriction ;
-                                                   owl:onProperty :mode ;
-                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                   owl:onDataRange xsd:string
-                                                 ]
-                                               ) ;
-                            rdf:type owl:Class
-                          ] ,
-                          [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                   owl:onProperty :vehicleType ;
-                                                   owl:allValuesFrom <http://dbpedia.org/ontology/Automobile>
-                                                 ]
-                                                 [ rdf:type owl:Restriction ;
-                                                   owl:onProperty :appliedBy ;
-                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                   owl:onClass <http://dbpedia.org/ontology/Arrondissement>
-                                                 ]
-                                               ) ;
-                            rdf:type owl:Class
-                          ] ;
+          owl:equivalentClass [ owl:intersectionOf ( :ModaliteDeTarification
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :pricing ;
+                                                       owl:someValuesFrom :Pricing
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :vehicleType ;
+                                                       owl:allValuesFrom <http://dbpedia.org/ontology/Automobile>
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :appliedBy ;
+                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                       owl:onClass <http://dbpedia.org/ontology/Arrondissement>
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :name ;
+                                                       owl:someValuesFrom xsd:string
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :mode ;
+                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                       owl:onDataRange xsd:string
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
           rdfs:comment "Vignette de stationnement dans les zones réservées pour les résidents"@fr ;
           rdfs:label "Vignette"@fr .
 
@@ -1146,12 +1147,19 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Ahuntsic-Cartierville
 :Ahuntsic-Cartierville rdf:type owl:NamedIndividual ,
-                                <http://dbpedia.org/ontology/Arrondissement> ;
+                                <http://dbpedia.org/ontology/Arrondissement> ,
+                                [ owl:intersectionOf ( <http://dbpedia.org/ontology/Place>
+                                                       <http://dbpedia.org/ontology/PopulatedPlace>
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
                        :name "Ahuntsic-Cartierville"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ArrêtGareMontrealOuest
 :ArrêtGareMontrealOuest rdf:type owl:NamedIndividual ,
+                                 <http://www.opengis.net/ont/geosparql#Geometry> ,
+                                 <http://www.opengis.net/ont/geosparql#SpatialObject> ,
                                  <https://www.wikidata.org/wiki/Q12819564> ;
                         :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#7499AveHarley> ;
                         :name "Gare Montreal Ouest"^^xsd:string .
@@ -1159,6 +1167,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ArrêtStationCôteDesNeiges
 :ArrêtStationCôteDesNeiges rdf:type owl:NamedIndividual ,
+                                    <http://www.opengis.net/ont/geosparql#Geometry> ,
+                                    <http://www.opengis.net/ont/geosparql#SpatialObject> ,
                                     <https://www.wikidata.org/wiki/Q12819564> ;
                            :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5316Geom> .
 
@@ -1206,8 +1216,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Day
-:Day rdf:type owl:NamedIndividual ,
-              :PricingPeriod ;
+:Day rdf:type owl:NamedIndividual ;
      rdfs:label "Journée"@fr .
 
 
@@ -1256,8 +1265,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Hour
-:Hour rdf:type owl:NamedIndividual ,
-               :PricingPeriod ;
+:Hour rdf:type owl:NamedIndividual ;
       rdfs:label "Heure"@fr .
 
 
@@ -1461,6 +1469,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Secteur100EV
 :Secteur100EV rdf:type owl:NamedIndividual ,
+                       :ModaliteDeTarification ,
                        :Vignette ;
               :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
               :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> ;
@@ -1471,6 +1480,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Secteur100G
 :Secteur100G rdf:type owl:NamedIndividual ,
+                      :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
              :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
@@ -1481,6 +1491,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Secteur100H
 :Secteur100H rdf:type owl:NamedIndividual ,
+                      :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
              :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
@@ -1616,8 +1627,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Year
-:Year rdf:type owl:NamedIndividual ,
-               :PricingPeriod ;
+:Year rdf:type owl:NamedIndividual ;
       rdfs:label "Année"@fr .
 
 
@@ -1629,6 +1639,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586> rdf:type owl:NamedIndividual ,
+                                                                             :ModaliteDeTarification ,
+                                                                             :Parcomètre ,
                                                                              :ParkingMeter ;
                                                                     :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586Geom> ;
                                                                     :onRoad :Côte-des-Neiges ;
@@ -1649,6 +1661,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034> rdf:type owl:NamedIndividual ,
+                                                                             :ModaliteDeTarification ,
+                                                                             :Parcomètre ,
                                                                              :ParkingMeter ;
                                                                     :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034Geom> ;
                                                                     :onRoad :Côte-des-Neiges ;
@@ -1670,8 +1684,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> rdf:type owl:NamedIndividual ,
                                                                                   :Pricing ;
-                                                                         :period :Hour ;
                                                                          :cost "300"^^xsd:positiveInteger ;
+                                                                         :durée "P1H"^^xsd:duration ;
                                                                          :name "300 cents par heure"^^xsd:string .
 
 
@@ -1680,7 +1694,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                                            :AireDeStationnement ;
                                                                                   :openOn :Fleury ;
                                                                                   :name "335 Rue Fleury Voie Est"^^xsd:string ;
-                                                                                  :numéro "335"^^xsd:positiveInteger .
+                                                                                  :numéro "335"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord
@@ -1688,22 +1702,22 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                                             :AireDeStationnement ;
                                                                                    :openOn :Fleury ;
                                                                                    :name "335 Rue Fleury Voie Nord"^^xsd:string ;
-                                                                                   :numéro "335"^^xsd:positiveInteger .
+                                                                                   :numéro "335"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> rdf:type owl:NamedIndividual ,
                                                                                   :Pricing ;
-                                                                         :period :Hour ;
                                                                          :cost "350"^^xsd:positiveInteger ;
+                                                                         :durée "P1H"^^xsd:duration ;
                                                                          :name "350 cents par heure"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> rdf:type owl:NamedIndividual ,
                                                                                    :Pricing ;
-                                                                          :period :Year ;
                                                                           :cost "5000"^^xsd:positiveInteger ;
+                                                                          :durée "P1Y"^^xsd:duration ;
                                                                           :name "5000 cents par année"^^xsd:string .
 
 
@@ -1725,16 +1739,16 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> rdf:type owl:NamedIndividual ,
                                                                                  :Pricing ;
-                                                                        :period :Day ;
                                                                         :cost "900"^^xsd:positiveInteger ;
+                                                                        :durée "P24H"^^xsd:duration ;
                                                                         :name "900 cents par jour"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> rdf:type owl:NamedIndividual ,
                                                                                    :Pricing ;
-                                                                          :period :Year ;
                                                                           :cost "9000"^^xsd:positiveInteger ;
+                                                                          :durée "P1Y"^^xsd:duration ;
                                                                           :name "9000 cents par année"^^xsd:string .
 
 

@@ -716,7 +716,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                     owl:someValuesFrom <https://www.wikidata.org/wiki/Q12819564>
                                                   ] ;
                               rdfs:subClassOf :Aire_De_Stationnement ;
-                              owl:disjointWith <https://www.wikidata.org/wiki/Q12819564> .
+                              owl:disjointWith <https://www.wikidata.org/wiki/Q12819564> ;
+                              rdfs:label "Aire De Stationnement Incitatif"@fr ,
+                                         "Aire de stationnement aménagé pour inciter les gens à prendre les tranports en commun."@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AireDeStationnementInstitutionnel
@@ -725,7 +727,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                          owl:onProperty :transportsEnCommunProche ;
                                                          owl:someValuesFrom <http://schema.org/Organization>
                                                        ] ;
-                                   rdfs:subClassOf :Aire_De_Stationnement .
+                                   rdfs:subClassOf :Aire_De_Stationnement ;
+                                   rdfs:comment "Aire de stationnement gérée par et proche d'une institution"@fr ;
+                                   rdfs:label "Aire De Stationnement Institutionnelle"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Aire_De_Stationnement
@@ -741,6 +745,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                 ) ;
                                              rdf:type owl:Class
                                            ] ;
+                       rdfs:comment "Espace aménagé qui comprend au moins une place de stationnement."@fr ;
                        rdfs:label "Aire De Stationnement"@fr .
 
 
@@ -758,7 +763,10 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                          ]
                                                        ) ;
                                     rdf:type owl:Class
-                                  ] .
+                                  ] ;
+              rdfs:comment """Une organisation ou entreprise qui peut gérer des aires de stationnements.
+Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
+              rdfs:label "Gestionnaire De Stationnement"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ModaliteDeTarification
@@ -780,7 +788,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                  ) ;
                                               rdf:type owl:Class
                                             ] ;
-                        owl:disjointWith :Reglementation .
+                        owl:disjointWith :Reglementation ;
+                        rdfs:comment "Modalité de tarification d'une place de stationnement. Elle peut se faire par un parcomètre, une vignette ou gratuitement."@fr ;
+                        rdfs:label "Modalité De Tarification"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Parcomètre
@@ -792,7 +802,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                        ]
                                                      ) ;
                                   rdf:type owl:Class
-                                ] .
+                                ] ;
+            rdfs:comment "Un appareil dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
+            rdfs:label "Parcomètre"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParcomètreHorsRue
@@ -804,7 +816,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                               ]
                                                             ) ;
                                          rdf:type owl:Class
-                                       ] .
+                                       ] ;
+                   rdfs:comment "Un appareil installé sur un terrain(Hors d'une chaussée) et dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingMeter
@@ -825,7 +838,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                        ) ;
                                     rdf:type owl:Class
                                   ] ;
-              rdfs:comment "Un appareil dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
+              rdfs:comment "Un appareil installé le long d'une rue et  dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
               rdfs:label "ParcomètreSurRue"@fr .
 
 
@@ -882,6 +895,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                             ) ;
                                          rdf:type owl:Class
                                        ] ;
+                       rdfs:comment """Période de validité d'une réglémentation ou d'une tarification liée à une place de stationnement.
+
+Par exemple: Du Lundi au Vendredi de 07h à 19 h"""@fr ;
                        rdfs:label "Période"@fr .
 
 
@@ -896,6 +912,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                   rdf:type owl:Class
                                                 ] ;
                             rdfs:subClassOf :ParkingSlot ;
+                            rdfs:comment "Place de stationnement situé ailleurs que le long d’une chaussée."@fr ;
                             rdfs:label "Place de Stationnement Sur Rue"@fr .
 
 
@@ -910,6 +927,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                        rdf:type owl:Class
                                                      ] ;
                                  rdfs:subClassOf :ParkingSlot ;
+                                 rdfs:comment "Place de stationnement situé ailleurs que le long d’une chaussée."@fr ;
                                  rdfs:label "Place de Stationnement Hors Rue"@fr .
 
 
@@ -935,7 +953,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                   ) ;
                                rdf:type owl:Class
                              ] ;
-         rdfs:comment "Tarif de la place (en cents)"@fr ;
+         rdfs:comment """Tarif de la place (en cents) pendant une durée spécifique(Heure, Jour,...) et 
+applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"""@fr ;
          rdfs:label "Tarification"@fr .
 
 
@@ -972,7 +991,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                      ) ;
                                   rdf:type owl:Class
                                 ] ;
-                rdfs:comment "Réglémentation"@fr .
+                rdfs:comment "Ensemble des mesures légales régissant les stationnements."@fr ;
+                rdfs:label "Réglementation"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#TypeExploitation
@@ -989,7 +1009,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                          ]
                                                        ) ;
                                     rdf:type owl:Class
-                                  ] .
+                                  ] ;
+                  rdfs:comment "Type d'exploitation d'une place de stationnement"@fr ;
+                  rdfs:label "TypeExploitation"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#TypeReglementation
@@ -1012,7 +1034,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                          ) ;
                                       rdf:type owl:Class
                                     ] ;
-                    rdfs:comment "Types de règlementations"@fr .
+                    rdfs:comment "Types de règlementations"@fr ;
+                    rdfs:label "Type De Réglementation"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Vignette
@@ -1048,11 +1071,13 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 
 ###  http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing
-<http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> rdf:type owl:Class .
+<http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> rdf:type owl:Class ;
+                                                       rdfs:comment "Position géographique : un element qui a une longitude et une latitude"@fr .
 
 
 ###  http://www.w3.org/2006/time#DayOfWeek
-<http://www.w3.org/2006/time#DayOfWeek> rdf:type owl:Class .
+<http://www.w3.org/2006/time#DayOfWeek> rdf:type owl:Class ;
+                                        rdfs:comment "Jour de la semaine"@fr .
 
 
 ###  https://www.wikidata.org/wiki/Q12819564
@@ -1195,13 +1220,15 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AireStationnementCDN
 :AireStationnementCDN rdf:type owl:NamedIndividual ,
-                               :Aire_De_Stationnement ;
+                               :Aire_De_Stationnement ,
+                               owl:Thing ;
                       :transportsEnCommunProche :ArrêtStationCôteDesNeiges .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AireStationnementPoly4A
 :AireStationnementPoly4A rdf:type owl:NamedIndividual ,
-                                  :Aire_De_Stationnement ;
+                                  :Aire_De_Stationnement ,
+                                  owl:Thing ;
                          :transportsEnCommunProche :Polytechnique .
 
 
@@ -1225,7 +1252,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Berri
 :Berri rdf:type owl:NamedIndividual ,
-                <http://dbpedia.org/ontology/Road> ;
+                <http://dbpedia.org/ontology/Road> ,
+                <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                owl:Thing ;
        :name "Berri"^^xsd:string .
 
 
@@ -1244,12 +1273,16 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#CheminDePolytechnique
 :CheminDePolytechnique rdf:type owl:NamedIndividual ,
-                                <http://dbpedia.org/ontology/Road> .
+                                <http://dbpedia.org/ontology/Road> ,
+                                <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                                owl:Thing .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Côte-des-Neiges
 :Côte-des-Neiges rdf:type owl:NamedIndividual ,
-                          <http://dbpedia.org/ontology/Road> ;
+                          <http://dbpedia.org/ontology/Road> ,
+                          <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                          owl:Thing ;
                  :name "Côte des Neiges"^^xsd:string .
 
 
@@ -1269,20 +1302,19 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                rdfs:label "DIM 13 à 18h"@fr .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Day
-:Day rdf:type owl:NamedIndividual ;
-     rdfs:label "Journée"@fr .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Edouard-Montpetit
 :Edouard-Montpetit rdf:type owl:NamedIndividual ,
-                            <http://dbpedia.org/ontology/Road> ;
+                            <http://dbpedia.org/ontology/Road> ,
+                            <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                            owl:Thing ;
                    :name "Édouard Montpetit"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Electric
 :Electric rdf:type owl:NamedIndividual ,
-                   <http://dbpedia.org/ontology/Automobile> ;
+                   <http://dbpedia.org/ontology/Automobile> ,
+                   <http://dbpedia.org/ontology/MeanOfTransportation> ,
+                   owl:Thing ;
           rdfs:label "Voiture électrique"@fr .
 
 
@@ -1296,44 +1328,25 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Fleury
 :Fleury rdf:type owl:NamedIndividual ,
-                 <http://dbpedia.org/ontology/Road> ;
+                 <http://dbpedia.org/ontology/Road> ,
+                 <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                 owl:Thing ;
         :name "Fleury"^^xsd:string .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForChargingElectricVehicle
-:ForChargingElectricVehicle rdf:type owl:NamedIndividual ;
-                            rdfs:label "Réservé pour voiture électrique en recharge"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForDisabled
-:ForDisabled rdf:type owl:NamedIndividual ;
-             rdfs:label "Réservé pour personnes à mobilité réduite"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForElectricVehicle
-:ForElectricVehicle rdf:type owl:NamedIndividual ;
-                    rdfs:label "Réservé pour voiture électrique"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForNormalUsage
-:ForNormalUsage rdf:type owl:NamedIndividual ;
-                rdfs:label "Usage normal"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Gasoline
 :Gasoline rdf:type owl:NamedIndividual ,
-                   <http://dbpedia.org/ontology/Automobile> ;
+                   <http://dbpedia.org/ontology/Automobile> ,
+                   <http://dbpedia.org/ontology/MeanOfTransportation> ,
+                   owl:Thing ;
           rdfs:label "Voiture à essence"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Hour
-:Hour rdf:type owl:NamedIndividual ;
-      rdfs:label "Heure"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Hybrid
 :Hybrid rdf:type owl:NamedIndividual ,
-                 <http://dbpedia.org/ontology/Automobile> ;
+                 <http://dbpedia.org/ontology/Automobile> ,
+                 <http://dbpedia.org/ontology/MeanOfTransportation> ,
+                 owl:Thing ;
         rdfs:label "Voiture hybride"@fr .
 
 
@@ -1577,20 +1590,25 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Sherbrooke
 :Sherbrooke rdf:type owl:NamedIndividual ,
-                     <http://dbpedia.org/ontology/Road> ;
+                     <http://dbpedia.org/ontology/Road> ,
+                     <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                     owl:Thing ;
             :name "Sherbrooke"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#St-André
 :St-André rdf:type owl:NamedIndividual ,
-                   <http://dbpedia.org/ontology/Road> ;
+                   <http://dbpedia.org/ontology/Road> ,
+                   <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                   owl:Thing ;
           :name "St André"^^xsd:string ;
           rdfs:label "St-André"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#StationnementExo
 :StationnementExo rdf:type owl:NamedIndividual ,
-                           :Aire_De_Stationnement ;
+                           :Aire_De_Stationnement ,
+                           owl:Thing ;
                   :transportsEnCommunProche :ArrêtGareMontrealOuest ;
                   rdfs:label "AireStationnementGareOuest"@fr .
 
@@ -1645,14 +1663,16 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U280Geom
 :U280Geom rdf:type owl:NamedIndividual ,
-                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+                   <http://www.opengis.net/ont/geosparql#Geometry> ,
+                   owl:Thing ;
           <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49708"^^xsd:float ;
           <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.624565"^^xsd:float .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U284
 :U284 rdf:type owl:NamedIndividual ,
-               :ParkingSlot ;
+               :ParkingSlot ,
+               owl:Thing ;
       :hasGeometry :U284Geom ;
       :head :U285 ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
@@ -1665,7 +1685,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U284Geom
 :U284Geom rdf:type owl:NamedIndividual ,
-                   <http://www.opengis.net/ont/geosparql#Geometry> ;
+                   <http://www.opengis.net/ont/geosparql#Geometry> ,
+                   owl:Thing ;
           <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.49691"^^xsd:float ;
           <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.62452"^^xsd:float .
 
@@ -1717,7 +1738,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Émile-Duployé
 :Émile-Duployé rdf:type owl:NamedIndividual ,
-                        <http://dbpedia.org/ontology/Road> ;
+                        <http://dbpedia.org/ontology/Road> ,
+                        <http://dbpedia.org/ontology/RouteOfTransportation> ,
+                        owl:Thing ;
                :name "Émile-Duployé"^^xsd:string .
 
 
@@ -1732,7 +1755,8 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-AndréGeom
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-AndréGeom> rdf:type owl:NamedIndividual ,
-                                                                                       <http://www.opengis.net/ont/geosparql#Geometry> ;
+                                                                                       <http://www.opengis.net/ont/geosparql#Geometry> ,
+                                                                                       owl:Thing ;
                                                                               <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "45.53808"^^xsd:float ;
                                                                               <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.60534"^^xsd:float ;
                                                                               rdfs:label "10058Geom"@fr .
@@ -1796,8 +1820,9 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#200PerDay> rdf:type owl:NamedIndividual ,
                                                                                  :Pricing ;
                                                                         :period <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#LUN_au_DIM_00:00_à_23:59> ;
-                                                                        :cost "200"^^xsd:positiveInteger ;
-                                                                        :durée "P1D"^^xsd:duration .
+                                                                        :cost "2000"^^xsd:positiveInteger ;
+                                                                        :durée "P1D"^^xsd:duration ;
+                                                                        rdfs:label "2000PerDay"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#2500ChemPolytechnique
@@ -2011,15 +2036,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
   owl:distinctMembers ( :Electric
                         :Gasoline
                         :Hybrid
-                      )
-] .
-
-
-[ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( :ForChargingElectricVehicle
-                        :ForDisabled
-                        :ForElectricVehicle
-                        :ForNormalUsage
                       )
 ] .
 

@@ -209,13 +209,6 @@ xsd:time rdf:type rdfs:Datatype .
          rdfs:range :ModaliteDeTarification .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#period
-:period rdf:type owl:ObjectProperty ;
-        rdfs:domain :Pricing ;
-        rdfs:comment "Indique la propriété qui relie un objet à sa période de tarification."@fr ;
-        rdfs:label "période"@fr .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#periode
 :periode rdf:type owl:ObjectProperty ;
          rdfs:domain [ rdf:type owl:Class ;
@@ -224,8 +217,8 @@ xsd:time rdf:type rdfs:Datatype .
                                    )
                      ] ;
          rdfs:range :PeriodeReglementation ;
-         rdfs:comment "périodeDeReglememtation"@fr ;
-         rdfs:label "periodeApplicable"@fr .
+         rdfs:comment "Période pendant laquelle une réglementation ou une tarification est en vigeur."@fr ;
+         rdfs:label "period"@en .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#pricing
@@ -1066,7 +1059,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                    ) ;
                                 rdf:type owl:Class
                               ] ;
-          rdfs:comment "Vignette de stationnement dans les zones réservées pour les résidents"@fr ;
+          rdfs:comment "Autocollant apposé au pare-brise d'une voiture pour indiquer que le propriétaire du véhicule est autorisé à se garer dans un stationnement déterminé, habituellement après avoir acquitté des droits pour une période donnée."@fr ;
           rdfs:label "Vignette"@fr .
 
 
@@ -1819,7 +1812,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#200PerDay
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#200PerDay> rdf:type owl:NamedIndividual ,
                                                                                  :Pricing ;
-                                                                        :period <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#LUN_au_DIM_00:00_à_23:59> ;
+                                                                        :periode <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#LUN_au_DIM_00:00_à_23:59> ;
                                                                         :cost "2000"^^xsd:positiveInteger ;
                                                                         :durée "P1D"^^xsd:duration ;
                                                                         rdfs:label "2000PerDay"@fr .

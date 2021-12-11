@@ -851,14 +851,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                owl:allValuesFrom :ParkingSlot
                              ] ,
                              [ rdf:type owl:Restriction ;
-                               owl:onProperty :onRoad ;
-                               owl:allValuesFrom <http://dbpedia.org/ontology/Road>
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty :onTerrain ;
-                               owl:allValuesFrom :AireDeStationnement
-                             ] ,
-                             [ rdf:type owl:Restriction ;
                                owl:onProperty :catégorie ;
                                owl:someValuesFrom xsd:string
                              ] ,
@@ -891,6 +883,34 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                          rdf:type owl:Class
                                        ] ;
                        rdfs:label "Période"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PlaceDeStationnementSurRue
+:PlaceDeStationnementSurRue rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( :ParkingSlot
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty :onRoad ;
+                                                                         owl:someValuesFrom <http://dbpedia.org/ontology/Road>
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:subClassOf :ParkingSlot ;
+                            rdfs:label "Place de Stationnement Sur Rue"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Place_de_Stationnement_Hors_Rue
+:Place_de_Stationnement_Hors_Rue rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( :ParkingSlot
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :onTerrain ;
+                                                                              owl:someValuesFrom :AireDeStationnement
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf :ParkingSlot ;
+                                 rdfs:label "Place de Stationnement Hors Rue"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Pricing

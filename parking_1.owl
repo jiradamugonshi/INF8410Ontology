@@ -225,10 +225,14 @@ xsd:time rdf:type rdfs:Datatype .
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#periode
 :periode rdf:type owl:ObjectProperty ;
-         rdfs:domain :Reglementation ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf ( :Pricing
+                                     :Reglementation
+                                   )
+                     ] ;
          rdfs:range :PeriodeReglementation ;
          rdfs:comment "périodeDeReglememtation"@fr ;
-         rdfs:label "periodeDeReglementation"@fr .
+         rdfs:label "periodeApplicable"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#pricing
@@ -308,6 +312,12 @@ xsd:time rdf:type rdfs:Datatype .
       rdfs:range xsd:positiveInteger ;
       rdfs:comment "Indique le montant à payer d'un tarif."@fr ;
       rdfs:label "coût"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#coûtMax
+:coûtMax rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Pricing ;
+         rdfs:range xsd:positiveInteger .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#description
@@ -791,10 +801,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                 owl:onProperty :onTerrain ;
                                                                 owl:someValuesFrom :AireDeStationnement
                                                               ]
-                                                              [ rdf:type owl:Restriction ;
-                                                                owl:onProperty :reglémentéPar ;
-                                                                owl:someValuesFrom :Reglementation
-                                                              ]
                                                             ) ;
                                          rdf:type owl:Class
                                        ] .
@@ -882,12 +888,21 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                               ]
                                                             ) ;
                                          rdf:type owl:Class
-                                       ] .
+                                       ] ;
+                       rdfs:label "Période"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Pricing
 :Pricing rdf:type owl:Class ;
          owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :periode ;
+                                                      owl:allValuesFrom :PeriodeReglementation
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :coûtMax ;
+                                                      owl:allValuesFrom xsd:positiveInteger
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
                                                       owl:onProperty :durée ;
                                                       owl:allValuesFrom xsd:duration
                                                     ]
@@ -1681,6 +1696,14 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                         <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-73.62841"^^xsd:float .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour> rdf:type owl:NamedIndividual ,
+                                                                                  :Pricing ;
+                                                                         :cost "275"^^xsd:positiveInteger ;
+                                                                         :coûtMax "1200"^^xsd:positiveInteger ;
+                                                                         :durée "P1H"^^xsd:duration .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> rdf:type owl:NamedIndividual ,
                                                                                   :Pricing ;
@@ -1740,7 +1763,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> rdf:type owl:NamedIndividual ,
                                                                                  :Pricing ;
                                                                         :cost "900"^^xsd:positiveInteger ;
-                                                                        :durée "P24H"^^xsd:duration ;
+                                                                        :durée "P1D"^^xsd:duration ;
                                                                         :name "900 cents par jour"^^xsd:string .
 
 
@@ -1750,6 +1773,21 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                           :cost "9000"^^xsd:positiveInteger ;
                                                                           :durée "P1Y"^^xsd:duration ;
                                                                           :name "9000 cents par année"^^xsd:string .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#LUN_au_DIM_00:00_à_23:59
+<http://www.semanticweb.org/majdi/ontologies/2021/10/parking#LUN_au_DIM_00:00_à_23:59> rdf:type owl:NamedIndividual ,
+                                                                                                :PeriodeReglementation ;
+                                                                                       :joursAppliqués <http://www.w3.org/2006/time#Friday> ,
+                                                                                                       <http://www.w3.org/2006/time#Monday> ,
+                                                                                                       <http://www.w3.org/2006/time#Saturday> ,
+                                                                                                       <http://www.w3.org/2006/time#Sunday> ,
+                                                                                                       <http://www.w3.org/2006/time#Thursday> ,
+                                                                                                       <http://www.w3.org/2006/time#Tuesday> ,
+                                                                                                       <http://www.w3.org/2006/time#Wednesday> ;
+                                                                                       :heureDeDebut "00:00"^^xsd:time ;
+                                                                                       :heureDeFin "23:59"^^xsd:time ;
+                                                                                       rdfs:label "LUN au DIM 00:00 à 23:59"@fr .
 
 
 ###  http://www.w3.org/2006/time#Friday
@@ -1892,6 +1930,17 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 [ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear>
                       )
 ] .
 

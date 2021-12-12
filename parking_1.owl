@@ -724,10 +724,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 :ParkingMeter rdf:type owl:Class ;
               owl:equivalentClass [ owl:intersectionOf ( :Parcomètre
                                                          [ rdf:type owl:Restriction ;
-                                                           owl:onProperty :hasGeometry ;
-                                                           owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
-                                                         ]
-                                                         [ rdf:type owl:Restriction ;
                                                            owl:onProperty :onRoad ;
                                                            owl:someValuesFrom <http://dbpedia.org/ontology/Road>
                                                          ]

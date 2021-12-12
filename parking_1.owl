@@ -134,6 +134,15 @@ xsd:time rdf:type rdfs:Datatype .
                  ] .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasCategory
+:hasCategory rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :ParkingSlot ;
+             rdfs:range :ParkingSlotCategory ;
+             rdfs:comment "Indique la propriété qui relie une place de stationnement à un type d'usage."@fr ;
+             rdfs:label "catégorie"@fr .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasGeometry
 :hasGeometry rdf:type owl:ObjectProperty ;
              rdfs:domain <http://www.opengis.net/ont/geosparql#SpatialObject> ;
@@ -274,20 +283,19 @@ xsd:time rdf:type rdfs:Datatype .
 #    Data properties
 #################################################################
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#adresse
+:adresse rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty ;
+         rdfs:domain :AireDeStationnement ;
+         rdfs:range xsd:string .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#bikeRack
 :bikeRack rdf:type owl:DatatypeProperty ;
           rdfs:domain :ParkingSlot ;
           rdfs:range xsd:boolean ;
           rdfs:comment "Indique la présence d'un support à vélo ou non"@fr ;
           rdfs:label "support vélo"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#catégorie
-:catégorie rdf:type owl:DatatypeProperty ;
-           rdfs:subPropertyOf owl:topDataProperty ;
-           rdf:type owl:FunctionalProperty ;
-           rdfs:domain :ParkingSlot ;
-           rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#codeReglementation
@@ -328,8 +336,7 @@ xsd:time rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#end
 :end rdf:type owl:DatatypeProperty ;
      rdfs:domain owl:Thing ;
-     rdfs:range xsd:dateTime ,
-                xsd:gMonthYear ;
+     rdfs:range xsd:gMonthDay ;
      rdfs:label "fin"@fr .
 
 
@@ -368,13 +375,6 @@ xsd:time rdf:type rdfs:Datatype .
       rdfs:label "nom"@fr .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#numéro
-:numéro rdf:type owl:DatatypeProperty ;
-        rdfs:subPropertyOf owl:topDataProperty ;
-        rdfs:domain :AireDeStationnement ;
-        rdfs:range xsd:string .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#placesMax
 :placesMax rdf:type owl:DatatypeProperty ;
            rdfs:subPropertyOf owl:topDataProperty ;
@@ -385,8 +385,7 @@ xsd:time rdf:type rdfs:Datatype .
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#start
 :start rdf:type owl:DatatypeProperty ;
        rdfs:domain owl:Thing ;
-       rdfs:range xsd:dateTime ,
-                  xsd:gMonthDay ;
+       rdfs:range xsd:gMonthDay ;
        rdfs:comment "Date de début(Année-Mois-Heure-HH:MM:SS) ou (Mois-Année)"@fr ;
        rdfs:label "début"@fr .
 
@@ -687,12 +686,9 @@ places de stationnement."""@fr ;
                                                                                     ]
                                                                 ]
                                                                 [ rdf:type owl:Restriction ;
-                                                                  owl:onProperty :name ;
-                                                                  owl:someValuesFrom xsd:string
-                                                                ]
-                                                                [ rdf:type owl:Restriction ;
-                                                                  owl:onProperty :numéro ;
-                                                                  owl:someValuesFrom xsd:string
+                                                                  owl:onProperty :adresse ;
+                                                                  owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                  owl:onDataRange xsd:string
                                                                 ]
                                                               ) ;
                                            rdf:type owl:Class
@@ -853,12 +849,12 @@ Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
                                owl:someValuesFrom <http://www.opengis.net/ont/geosparql#Geometry>
                              ] ,
                              [ rdf:type owl:Restriction ;
-                               owl:onProperty :head ;
-                               owl:allValuesFrom :ParkingSlot
+                               owl:onProperty :hasCategory ;
+                               owl:allValuesFrom :ParkingSlotCategory
                              ] ,
                              [ rdf:type owl:Restriction ;
-                               owl:onProperty :catégorie ;
-                               owl:someValuesFrom xsd:string
+                               owl:onProperty :head ;
+                               owl:allValuesFrom :ParkingSlot
                              ] ,
                              [ rdf:type owl:Restriction ;
                                owl:onProperty :bikeRack ;
@@ -867,6 +863,12 @@ Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
              owl:disjointWith :Vignette ;
              rdfs:comment "Une place de stationnement qui peut accueuillir un seul véhicule."@fr ;
              rdfs:label "Place de stationnement"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ParkingSlotCategory
+:ParkingSlotCategory rdf:type owl:Class ;
+                     rdfs:comment "Le type d'usage pour une place de stationnement: usage normal, mobilité réduite, voiture électrique ou voiture électrique en charge." ;
+                     rdfs:label "Type usage de la palce de stationnement"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PeriodeReglementation
@@ -1086,6 +1088,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A133
 :A133 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :A133Geom ;
       :head :A134 ;
       :located :Ville-Marie ;
@@ -1093,7 +1096,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :reglémentéPar :CH-AA ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "A133"^^xsd:string .
 
 
@@ -1107,12 +1109,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A134
 :A134 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :A134Geom ;
       :located :Ville-Marie ;
       :onRoad :Sherbrooke ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "A134"^^xsd:string .
 
 
@@ -1126,12 +1128,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#A190
 :A190 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :A190Geom ;
       :located :Ville-Marie ;
       :onRoad :Sherbrooke ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "A190"^^xsd:string .
 
 
@@ -1145,13 +1147,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC382
 :AC382 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC382Geom ;
        :head :AC383 ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "AC382"^^xsd:string .
 
 
@@ -1165,12 +1167,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC383
 :AC383 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC383Geom ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "AC383"^^xsd:string .
 
 
@@ -1184,12 +1186,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#AC410
 :AC410 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :AC410Geom ;
        :located :Ahuntsic-Cartierville ;
        :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst> ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "AC410"^^xsd:string .
 
 
@@ -1258,10 +1260,10 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                 :PR1 ,
                 :SAM_9_à_18_h ;
        :type :ReglementationUtilistation ;
+       :end "--12-31"^^xsd:gMonthDay ;
        :maxHeures "2"^^xsd:positiveInteger ;
        :name "Régémentation CH-AA"^^xsd:string ;
-       :start "0101"^^xsd:time ,
-              "3112"^^xsd:time .
+       :start "--01-01"^^xsd:gMonthDay .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#CheminDePolytechnique
@@ -1327,6 +1329,31 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
         :name "Fleury"^^xsd:string .
 
 
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForChargingElectricVehicle
+:ForChargingElectricVehicle rdf:type owl:NamedIndividual ,
+                                     :ParkingSlotCategory ;
+                            rdfs:label "Réservé pour voiture électrique en recharge"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForDisabled
+:ForDisabled rdf:type owl:NamedIndividual ,
+                      :ParkingSlotCategory ;
+             :hasCategory :ForDisabled ;
+             rdfs:label "Réservé pour personnes à mobilité réduite"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForElectricVehicle
+:ForElectricVehicle rdf:type owl:NamedIndividual ,
+                             :ParkingSlotCategory ;
+                    rdfs:label "Réservé pour voiture électrique"@fr .
+
+
+###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForNormalUsage
+:ForNormalUsage rdf:type owl:NamedIndividual ,
+                         :ParkingSlotCategory ;
+                rdfs:label "Usage normal"@fr .
+
+
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#Gasoline
 :Gasoline rdf:type owl:NamedIndividual ,
                    <http://dbpedia.org/ontology/Automobile> ,
@@ -1359,13 +1386,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD444
 :PD444 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD444Geom ;
        :located :Le_Plateau-Mont-Royal ;
        :onRoad :Émile-Duployé ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "PD444"^^xsd:string .
 
 
@@ -1379,6 +1406,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD445
 :PD445 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD445Geom ;
        :head :PD446 ;
        :located :Le_Plateau-Mont-Royal ;
@@ -1386,7 +1414,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "PD445"^^xsd:string .
 
 
@@ -1400,13 +1427,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#PD446
 :PD446 rdf:type owl:NamedIndividual ,
                 :ParkingSlot ;
+       :hasCategory :ForNormalUsage ;
        :hasGeometry :PD446Geom ;
        :located :Le_Plateau-Mont-Royal ;
        :onRoad :Émile-Duployé ;
        :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ,
                 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay> ;
        :bikeRack "false"^^xsd:boolean ;
-       :catégorie "Usage normal"^^xsd:string ;
        :name "PD446"^^xsd:string .
 
 
@@ -1463,12 +1490,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R361
 :R361 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :R361Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "R361"^^xsd:string .
 
 
@@ -1482,13 +1509,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R362
 :R362 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :R362Geom ;
       :head :R363 ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "362"^^xsd:string .
 
 
@@ -1502,12 +1529,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#R363
 :R363 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :R363Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "R363"^^xsd:string .
 
 
@@ -1650,7 +1677,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
-      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
       :name "U280"^^xsd:string .
 
 
@@ -1666,13 +1692,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 :U284 rdf:type owl:NamedIndividual ,
                :ParkingSlot ,
                owl:Thing ;
+      :hasCategory :ForDisabled ;
       :hasGeometry :U284Geom ;
       :head :U285 ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
       :name "U284"^^xsd:string .
 
 
@@ -1687,12 +1713,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U285
 :U285 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForNormalUsage ;
       :hasGeometry :U285Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Edouard-Montpetit ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "true"^^xsd:boolean ;
-      :catégorie "Usage normal"^^xsd:string ;
       :name "U285"^^xsd:string .
 
 
@@ -1706,12 +1732,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#U412
 :U412 rdf:type owl:NamedIndividual ,
                :ParkingSlot ;
+      :hasCategory :ForDisabled ;
       :hasGeometry :U412Geom ;
       :located :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
       :onRoad :Côte-des-Neiges ;
       :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> ;
       :bikeRack "false"^^xsd:boolean ;
-      :catégorie "Réservé pour personnes à mobilité réduite"^^xsd:string ;
       :name "U412"^^xsd:string .
 
 
@@ -1741,8 +1767,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-André> rdf:type owl:NamedIndividual ,
                                                                                    :AireDeStationnement ;
                                                                           :openOn :St-André ;
-                                                                          :name "024RueSt-André"^^xsd:string ;
-                                                                          :numéro "024"^^xsd:string ;
+                                                                          :adresse "024RueSt-André"^^xsd:string ;
                                                                           rdfs:label "024RueSt-André"@fr .
 
 
@@ -1823,8 +1848,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                                                              :AireDeStationnement ;
                                                                                     :contains :Poly4A1 ;
                                                                                     :openOn :CheminDePolytechnique ;
-                                                                                    :name "2500 Chem. de Polytechnique, Montréal, QC H3T 1J4"^^xsd:string ;
-                                                                                    :numéro "2500"^^xsd:string .
+                                                                                    :adresse "2500 Chem. de Polytechnique, Montréal, QC H3T 1J4"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour
@@ -1832,14 +1856,14 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                                                   :Pricing ;
                                                                          :cost "275"^^xsd:positiveInteger ;
                                                                          :coûtMax "1200"^^xsd:positiveInteger ;
-                                                                         :durée "P1H"^^xsd:duration .
+                                                                         :durée "PT1H"^^xsd:duration .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour> rdf:type owl:NamedIndividual ,
                                                                                   :Pricing ;
                                                                          :cost "300"^^xsd:positiveInteger ;
-                                                                         :durée "P1H"^^xsd:duration ;
+                                                                         :durée "PT1H"^^xsd:duration ;
                                                                          :name "300 cents par heure"^^xsd:string .
 
 
@@ -1847,23 +1871,21 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst> rdf:type owl:NamedIndividual ,
                                                                                            :AireDeStationnement ;
                                                                                   :openOn :Fleury ;
-                                                                                  :name "335 Rue Fleury Voie Est"^^xsd:string ;
-                                                                                  :numéro "335"^^xsd:string .
+                                                                                  :adresse "335 Rue Fleury Voie Est"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord> rdf:type owl:NamedIndividual ,
                                                                                             :AireDeStationnement ;
                                                                                    :openOn :Fleury ;
-                                                                                   :name "335 Rue Fleury Voie Nord"^^xsd:string ;
-                                                                                   :numéro "335"^^xsd:string .
+                                                                                   :adresse "335 Rue Fleury Voie Nord"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour> rdf:type owl:NamedIndividual ,
                                                                                   :Pricing ;
                                                                          :cost "350"^^xsd:positiveInteger ;
-                                                                         :durée "P1H"^^xsd:duration ;
+                                                                         :durée "PT1H"^^xsd:duration ;
                                                                          :name "350 cents par heure"^^xsd:string .
 
 
@@ -1916,8 +1938,8 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                                                                        <http://www.w3.org/2006/time#Thursday> ,
                                                                                                        <http://www.w3.org/2006/time#Tuesday> ,
                                                                                                        <http://www.w3.org/2006/time#Wednesday> ;
-                                                                                       :heureDeDebut "00:00"^^xsd:time ;
-                                                                                       :heureDeFin "23:59"^^xsd:time ;
+                                                                                       :heureDeDebut "00:00:00"^^xsd:time ;
+                                                                                       :heureDeFin "23:59:59"^^xsd:time ;
                                                                                        rdfs:label "LUN au DIM 00:00 à 23:59"@fr .
 
 

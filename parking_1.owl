@@ -313,7 +313,8 @@ xsd:time rdf:type rdfs:Datatype .
 :codeReglementation rdf:type owl:DatatypeProperty ;
                     rdfs:subPropertyOf owl:topDataProperty ;
                     rdfs:domain :TypeReglementation ;
-                    rdfs:range xsd:string .
+                    rdfs:range xsd:string ;
+                    rdfs:comment "Code spécifique à chaque type de  réglémentation."@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#cost
@@ -345,13 +346,15 @@ xsd:time rdf:type rdfs:Datatype .
 :durée rdf:type owl:DatatypeProperty ;
        rdfs:subPropertyOf owl:topDataProperty ;
        rdfs:domain owl:Thing ;
-       rdfs:range xsd:duration .
+       rdfs:range xsd:duration ;
+       rdfs:comment "Durée de temps"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#end
 :end rdf:type owl:DatatypeProperty ;
      rdfs:domain owl:Thing ;
      rdfs:range xsd:gMonthDay ;
+     rdfs:comment "Date de fin(Année-Mois-Heure-HH:MM:SS) ou (Mois-Année)"@fr ;
      rdfs:label "fin"@fr .
 
 
@@ -367,14 +370,16 @@ xsd:time rdf:type rdfs:Datatype .
 :heureDeFin rdf:type owl:DatatypeProperty ;
             rdfs:subPropertyOf owl:topDataProperty ;
             rdfs:domain :PeriodeReglementation ;
-            rdfs:range xsd:time .
+            rdfs:range xsd:time ;
+            rdfs:comment "Heure de fin de la période"@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#maxHeures
 :maxHeures rdf:type owl:DatatypeProperty ;
            rdfs:subPropertyOf owl:topDataProperty ;
            rdfs:domain :Reglementation ;
-           rdfs:range xsd:positiveInteger .
+           rdfs:range xsd:positiveInteger ;
+           rdfs:comment "Nombre maximun d'heures pendant lesquelles la réglémentation s'applique."@fr .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#mode
@@ -391,26 +396,12 @@ xsd:time rdf:type rdfs:Datatype .
       rdfs:label "nom"@fr .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#placesMax
-:placesMax rdf:type owl:DatatypeProperty ;
-           rdfs:subPropertyOf owl:topDataProperty ;
-           rdfs:domain :Aire_De_Stationnement ;
-           rdfs:range xsd:positiveInteger .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#start
 :start rdf:type owl:DatatypeProperty ;
        rdfs:domain owl:Thing ;
        rdfs:range xsd:gMonthDay ;
        rdfs:comment "Date de début(Année-Mois-Heure-HH:MM:SS) ou (Mois-Année)"@fr ;
        rdfs:label "début"@fr .
-
-
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#typeUsage
-:typeUsage rdf:type owl:DatatypeProperty ;
-           rdfs:subPropertyOf owl:topDataProperty ;
-           rdfs:domain :ParkingSlot ;
-           rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#zoneCode
@@ -808,6 +799,7 @@ Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
                                                      ) ;
                                   rdf:type owl:Class
                                 ] ;
+            owl:disjointWith :Vignette ;
             rdfs:comment "Un appareil dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr ;
             rdfs:label "Parcomètre"@fr .
 
@@ -822,6 +814,7 @@ Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
                                                             ) ;
                                          rdf:type owl:Class
                                        ] ;
+                   owl:disjointWith :ParkingMeter ;
                    rdfs:comment "Un appareil installé sur un terrain(Hors d'une chaussée) et dédié à collecter l'argent en échange d'un droit de stationnement d'un véhicule sur une place de stationnement pour une durée limitée."@fr .
 
 
@@ -1359,7 +1352,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForDisabled
 :ForDisabled rdf:type owl:NamedIndividual ,
                       :ParkingSlotCategory ;
-             :hasCategory :ForDisabled ;
              rdfs:label "Réservé pour personnes à mobilité réduite"@fr .
 
 
@@ -2003,6 +1995,29 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 #    General axioms
 #################################################################
 
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( <http://dbpedia.org/ontology/MeanOfTransportation>
+                <http://schema.org/Organization>
+                :Aire_De_Stationnement
+                :ParkingSlotCategory
+                :Pricing
+                :TypeExploitation
+                :TypeReglementation
+                <http://www.w3.org/2006/time#DayOfWeek>
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :ModaliteDeTarification
+                :ParkingSlotCategory
+                :TypeExploitation
+                :TypeReglementation
+                <http://www.w3.org/2006/time#DayOfWeek>
+              )
+] .
+
+
 [ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :A133
                         :A134
@@ -2059,6 +2074,15 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :AireStationnementCDN
+                        :AireStationnementPoly4A
+                        :ArrêtGareMontrealOuest
+                        :StationnementExo
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :Berri
                         :CheminDePolytechnique
                         :Côte-des-Neiges
@@ -2089,6 +2113,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Exo
+                        :Polytechnique
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :ForChargingElectricVehicle
                         :ForDisabled
                         :ForElectricVehicle
@@ -2098,9 +2129,12 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 
 [ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( :Secteur100EV
+  owl:distinctMembers ( :PolyMT
+                        :Secteur100EV
                         :Secteur100G
                         :Secteur100H
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
                       )
 ] .
 
@@ -2110,21 +2144,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#2500ChemPolytechnique>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieEst>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#335RueFleuryVoieNord>
-                      )
-] .
-
-
-[ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
-                      )
-] .
-
-
-[ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
                       )
 ] .
 

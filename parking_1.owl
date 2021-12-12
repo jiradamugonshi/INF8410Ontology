@@ -125,14 +125,6 @@ xsd:time rdf:type rdfs:Datatype .
           rdfs:label "contient"@fr .
 
 
-###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#endPoint
-:endPoint rdf:type owl:ObjectProperty ;
-          rdfs:domain :ModaliteDeTarification ;
-          rdfs:range :ParkingSlot ;
-          rdfs:comment "Indique la propriété qui relie le parcomètre à certains places de stationnement."@fr ;
-          rdfs:label "lié à"@fr .
-
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#hasCategory
 :hasCategory rdf:type owl:ObjectProperty ,
                       owl:FunctionalProperty ;
@@ -680,7 +672,7 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ModaliteDeTarification
 :ModaliteDeTarification rdf:type owl:Class ;
                         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                     owl:onProperty :pricing ;
+                                                                     owl:onProperty :collect ;
                                                                      owl:allValuesFrom :Pricing
                                                                    ]
                                                                    [ rdf:type owl:Restriction ;
@@ -696,7 +688,6 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
                                                                  ) ;
                                               rdf:type owl:Class
                                             ] ;
-                        owl:disjointWith :Reglementation ;
                         rdfs:comment "Modalité de tarification d'une place de stationnement. Elle peut se faire par un parcomètre, une vignette ou gratuitement."@fr ;
                         rdfs:label "Modalité De Tarification"@fr .
 
@@ -910,7 +901,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                      ) ;
                                   rdf:type owl:Class
                                 ] ;
-                owl:disjointWith :TypeExploitation ;
                 rdfs:comment "Ensemble des mesures légales régissant les stationnements."@fr ;
                 rdfs:label "Réglementation"@fr .
 
@@ -962,10 +952,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 :Vignette rdf:type owl:Class ;
           owl:equivalentClass [ owl:intersectionOf ( :ModaliteDeTarification
                                                      [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :pricing ;
-                                                       owl:someValuesFrom :Pricing
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
                                                        owl:onProperty :vehicleType ;
                                                        owl:allValuesFrom <http://dbpedia.org/ontology/Automobile>
                                                      ]
@@ -973,15 +959,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                        owl:onProperty :appliedBy ;
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass <http://dbpedia.org/ontology/Arrondissement>
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :name ;
-                                                       owl:someValuesFrom xsd:string
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :mode ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onDataRange xsd:string
                                                      ]
                                                    ) ;
                                 rdf:type owl:Class
@@ -1241,7 +1218,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ForDisabled
 :ForDisabled rdf:type owl:NamedIndividual ,
                       :ParkingSlotCategory ;
-             :hasCategory :ForDisabled ;
              rdfs:label "Réservé pour personnes à mobilité réduite"@fr .
 
 
@@ -1482,7 +1458,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                        :ModaliteDeTarification ,
                        :Vignette ;
               :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-              :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> ;
+              :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> ;
               :vehicleType :Electric ;
               :mode "payant"^^xsd:string ;
               :name "Vignette secteur 100 - voiture électrique"^^xsd:string .
@@ -1493,7 +1469,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                       :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-             :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
+             :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
              :vehicleType :Gasoline ;
              :mode "payant"^^xsd:string ;
              :name "Vignette secteur 100 - voiture à essence"^^xsd:string .
@@ -1504,7 +1480,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                       :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-             :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
+             :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
              :vehicleType :Hybrid ;
              :mode "payant"^^xsd:string ;
              :name "Vignette secteur 100 - voiture hybride"^^xsd:string .
@@ -1676,12 +1652,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058> rdf:type owl:NamedIndividual ,
+                                                                             :ModaliteDeTarification ,
                                                                              :Parcomètre ,
                                                                              :ParcomètreHorsRue ;
+                                                                    :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour> ;
                                                                     :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-AndréGeom> ;
                                                                     :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-André> ;
-                                                                    :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour> ;
-                                                                    :mode ""^^xsd:string ;
+                                                                    :mode "payant"^^xsd:string ;
                                                                     :name "10058"^^xsd:string .
 
 
@@ -1881,9 +1858,18 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                 <http://dbpedia.org/ontology/RouteOfTransportation>
                 :AireDeStationnement
                 :ModaliteDeTarification
-                :PeriodeReglementation
-                :Pricing
+                :ParkingSlotCategory
                 :Reglementation
+                :TypeExploitation
+                <http://www.w3.org/2006/time#DayOfWeek>
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( <http://dbpedia.org/ontology/MeanOfTransportation>
+                :AireDeStationnement
+                :PeriodeReglementation
               )
 ] .
 

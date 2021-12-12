@@ -764,11 +764,10 @@ Ex: le terrain sur lequel est construite l'école  Polytechnique de Montreal , o
 Exemple: EXO qui gère certains stationnememts Incitatifs à Montreal"""@fr ;
               rdfs:label "Gestionnaire De Stationnement"@fr .
 
-
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#ModaliteDeTarification
 :ModaliteDeTarification rdf:type owl:Class ;
                         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                     owl:onProperty :pricing ;
+                                                                     owl:onProperty :collect ;
                                                                      owl:allValuesFrom :Pricing
                                                                    ]
                                                                    [ rdf:type owl:Restriction ;
@@ -1050,10 +1049,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 :Vignette rdf:type owl:Class ;
           owl:equivalentClass [ owl:intersectionOf ( :ModaliteDeTarification
                                                      [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :pricing ;
-                                                       owl:someValuesFrom :Pricing
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
                                                        owl:onProperty :vehicleType ;
                                                        owl:allValuesFrom <http://dbpedia.org/ontology/Automobile>
                                                      ]
@@ -1061,15 +1056,6 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                                                        owl:onProperty :appliedBy ;
                                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                        owl:onClass <http://dbpedia.org/ontology/Arrondissement>
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :name ;
-                                                       owl:someValuesFrom xsd:string
-                                                     ]
-                                                     [ rdf:type owl:Restriction ;
-                                                       owl:onProperty :mode ;
-                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                                       owl:onDataRange xsd:string
                                                      ]
                                                    ) ;
                                 rdf:type owl:Class
@@ -1593,7 +1579,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                        :ModaliteDeTarification ,
                        :Vignette ;
               :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-              :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> ;
+              :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear> ;
               :vehicleType :Electric ;
               :mode "payant"^^xsd:string ;
               :name "Vignette secteur 100 - voiture électrique"^^xsd:string .
@@ -1604,7 +1590,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                       :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-             :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
+             :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
              :vehicleType :Gasoline ;
              :mode "payant"^^xsd:string ;
              :name "Vignette secteur 100 - voiture à essence"^^xsd:string .
@@ -1615,7 +1601,7 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
                       :ModaliteDeTarification ,
                       :Vignette ;
              :appliedBy :Côte-des-Neiges_-_Notre-Dame-de-Grâce ;
-             :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
+             :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear> ;
              :vehicleType :Hybrid ;
              :mode "payant"^^xsd:string ;
              :name "Vignette secteur 100 - voiture hybride"^^xsd:string .
@@ -1795,12 +1781,13 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 ###  http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058
 <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058> rdf:type owl:NamedIndividual ,
+                                                                             :ModaliteDeTarification ,
                                                                              :Parcomètre ,
                                                                              :ParcomètreHorsRue ;
+                                                                    :collect <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour> ;
                                                                     :hasGeometry <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-AndréGeom> ;
                                                                     :onTerrain <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#024St-André> ;
-                                                                    :pricing <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour> ;
-                                                                    :mode ""^^xsd:string ;
+                                                                    :mode "payant"^^xsd:string ;
                                                                     :name "10058"^^xsd:string .
 
 
@@ -1997,23 +1984,21 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 [ rdf:type owl:AllDisjointClasses ;
   owl:members ( <http://dbpedia.org/ontology/MeanOfTransportation>
-                <http://schema.org/Organization>
-                :Aire_De_Stationnement
+                <http://dbpedia.org/ontology/RouteOfTransportation>
+                :AireDeStationnement
+                :ModaliteDeTarification
                 :ParkingSlotCategory
-                :Pricing
+                :Reglementation
                 :TypeExploitation
-                :TypeReglementation
                 <http://www.w3.org/2006/time#DayOfWeek>
               )
 ] .
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :ModaliteDeTarification
-                :ParkingSlotCategory
-                :TypeExploitation
-                :TypeReglementation
-                <http://www.w3.org/2006/time#DayOfWeek>
+  owl:members ( <http://dbpedia.org/ontology/MeanOfTransportation>
+                :AireDeStationnement
+                :PeriodeReglementation
               )
 ] .
 
@@ -2129,11 +2114,35 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :ParcojourPayez-Partez
+                        :RegulierPartezAffichez
+                        :RegulierPayezPartez
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :PolyMT
                         :Secteur100EV
                         :Secteur100G
                         :Secteur100H
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Secteur100EV
+                        :Secteur100G
+                        :Secteur100H
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :Secteur100EV
+                        :Secteur100G
+                        :Secteur100H
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
                       )
 ] .
@@ -2149,19 +2158,17 @@ applicable sur une période spécifique (Ex: Du Lundi au Vendredi de 2h à 10h)"
 
 
 [ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#200PerDay>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay>
-                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#9000PerYear>
+  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10058>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#10586>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#11034>
                       )
 ] .
 
 
 [ rdf:type owl:AllDifferent ;
-  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour>
+  owl:distinctMembers ( <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#200PerDay>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#275PerHour>
+                        <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#300PerHour>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#350PerHour>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#5000PerYear>
                         <http://www.semanticweb.org/majdi/ontologies/2021/10/parking#900PerDay>
